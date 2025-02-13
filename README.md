@@ -13,10 +13,10 @@ Cette règle est présente pour éviter de push du code de mauvaise qualité et 
 # Règles pour les PR (pull requests)
 > Quand vous pushez dans main: merci de link les issues pour les auto resolve dans le project.
 
-> Créer un label quand on push dans main.
+> Créer un tag quand on push dans main.
 
 > Il est préférable de link la milestone et ou le proj. (c'est pas obligé)
 
-> Il est préférable d'ajouter des tags à la PR
+> Il est préférable d'ajouter des labels à la PR
 
 > Il est préférable de donner des noms siginficatifs et de décrire rapidement ce qui a changé.
