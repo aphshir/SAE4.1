@@ -311,6 +311,20 @@ th {
     width: 150px;
 }
 
+.form_button {
+    display: inline-block;
+    padding: 14px 20px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #5f8755;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
 .form_button,
 .btn_creation,
 .btn_retour {
