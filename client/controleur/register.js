@@ -74,6 +74,20 @@ document.getElementById("mdp").addEventListener("input", (e) => {
     }
 });
 
+document.getElementById("mdpConfirm").addEventListener("input", (e) => {
+    const password = document.getElementById("mdp").value;
+    const confirmPassword = document.getElementById("mdpConfirm").value;
+    const msgErreurConfirm = document.getElementById("mdpConfirmErreur");
+
+    if (password !== confirmPassword) {
+        msgErreurConfirm.style.color = "red";
+        msgErreurConfirm.innerHTML = "Les mots de passe ne correspondent pas";
+    } else {
+        msgErreurConfirm.style.color = "green";
+        msgErreurConfirm.innerHTML = "Les mots de passe correspondent";
+    }
+});
+
 function register() {
     let erreur = 0;
 
@@ -98,6 +112,17 @@ function register() {
 
     if (!melOK || !mdpOK) {
         msgErreur.innerHTML = "Votre mot de passe ou votre adresse mail n'est pas conforme !";
+        msgErreur.style.display = "block";
+        setTimeout(() => {
+            msgErreur.style.display = "none";
+        }, 10000);
+        return;
+    }
+
+    const password = document.getElementById("mdp").value;
+    const confirmPassword = document.getElementById("mdpConfirm").value;
+    if (password !== confirmPassword) {
+        msgErreur.innerHTML = "Les mots de passe ne correspondent pas !";
         msgErreur.style.display = "block";
         setTimeout(() => {
             msgErreur.style.display = "none";

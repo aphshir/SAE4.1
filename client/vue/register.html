@@ -23,13 +23,21 @@
         <label for="login">Login : </label>
         <input required type="text" id="login" name="login" placeholder="Saisir votre login ici" maxlength="30">
 
-        <label for="mdp">Mot de passe : </label>
-        <input required type="password" id="mdp" name="mdp" placeholder="Saisir votre mot de passe ici" maxlength="30">
-        <span id="mdpErreur1">Le mot de passe doit contenir au moins 8 caractères</span>
-        <span id="mdpErreur2">Le mot de passe doit contenir au moins un majuscule</span>
-        <span id="mdpErreur3">Le mot de passe doit contenir au moins un minuscule</span>
-        <span id="mdpErreur4">Le mot de passe doit contenir au moins un caractère spéciale</span>
-        <span id="mdpErreur5">Le mot de passe doit contenir au moins un nombre</span>
+        <div>
+            <label for="mdp">Mot de passe</label>
+            <input type="password" id="mdp" name="mdp" required>
+            <i id="togglePassword" class="fa fa-eye"></i>
+            <span id="mdpErreur1">Le mot de passe doit contenir au moins 8 caractères.</span>
+            <span id="mdpErreur2">Le mot de passe doit contenir au moins une majuscule.</span>
+            <span id="mdpErreur3">Le mot de passe doit contenir au moins une minuscule.</span>
+            <span id="mdpErreur4">Le mot de passe doit contenir au moins un caractère spécial.</span>
+            <span id="mdpErreur5">Le mot de passe doit contenir au moins un chiffre.</span>
+        </div>
+        <div>
+            <label for="mdpConfirm">Confirmer le mot de passe</label>
+            <input type="password" id="mdpConfirm" name="mdpConfirm" required>
+            <span id="mdpConfirmErreur"></span>
+        </div>
 
         <label for="mel">Mail : </label>
         <input required type="text" id="mel" name="mel" placeholder="Saisir votre adresse mel ici" maxlength="100">
@@ -40,9 +48,9 @@
 
         <br>
 
-        <input type="submit" name="valider" value="S'inscrire" class="form_button">
+        <button type="submit">S'inscrire</button>
 
-        <p id="MessageErreur">Message d'erreur</p>
+        <div id="MessageErreur"></div>
     </form>
 
     <footer id="printFooter"></footer>
