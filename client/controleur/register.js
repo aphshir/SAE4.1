@@ -24,8 +24,10 @@ document.getElementById("mel").addEventListener("input", (e) => {
     let msgErreurMail = document.getElementById("melErreur");
     melOK = mel_conforme.test(document.getElementById("mel").value);
 
-    if (melOK) msgErreurMail.style.color = "green";
-    else {
+    if (melOK) {
+        msgErreurMail.style.color = "green";
+        msgErreurMail.innerHTML = "Adresse mail conforme";
+    } else {
         msgErreurMail.style.color = "red";
         msgErreurMail.innerHTML = "Adresse mail non conforme";
     }
