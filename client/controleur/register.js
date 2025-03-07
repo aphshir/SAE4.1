@@ -7,7 +7,7 @@ let melOK = false;
 
 mdpErreurs.forEach((mdpErreur) => {
     mdpErreur.style.display = "none";
-  });
+});
 
 msgErreur.style.display = "none";
 msgErreur.style.backgroundColor = "red";
@@ -23,10 +23,9 @@ document.getElementById("mel").addEventListener("input", (e) => {
     let mel_conforme = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let msgErreurMail = document.getElementById("melErreur");
     melOK = mel_conforme.test(document.getElementById("mel").value);
-    
 
     if (melOK) msgErreurMail.style.color = "green";
-    else{
+    else {
         msgErreurMail.style.color = "red";
         msgErreurMail.innerHTML = "Adresse mail non conforme";
     }
@@ -42,7 +41,7 @@ document.getElementById("mdp").addEventListener("input", (e) => {
     let testMin = /[a-z]/;
     let testCar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
     let testNb = /[0-9]/;
-    
+
     let valeurTester = document.getElementById("mdp").value;
     mdpOK = testLg.test(valeurTester) && testMaj.test(valeurTester) && testMin.test(valeurTester) && testCar.test(valeurTester) && testNb.test(valeurTester);
     console.log(mdpOK);
@@ -71,9 +70,7 @@ document.getElementById("mdp").addEventListener("input", (e) => {
     else {
         mdpErreurs[4].style.color = "red";
     }
-    
 });
-
 
 function register() {
     let erreur = 0;
@@ -82,8 +79,8 @@ function register() {
     const values = [];
 
     inputs.forEach((input) => {
-        values.push(input.value);
-        if (input.value === null) {
+        values.push(input.value.trim());
+        if (input.value.trim() === "") {
             erreur++;
         }
     });

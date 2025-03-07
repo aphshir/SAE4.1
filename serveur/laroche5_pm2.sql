@@ -1,167 +1,163 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
+let form = document.querySelector('form');
+let msgErreur = document.getElementById("MessageErreur");
+const mdpErreurs = document.querySelectorAll('span[id^="mdpErreur"]');
 --
--- Hôte : devbdd.iutmetz.univ-lorraine.fr
--- Généré le : mer. 05 avr. 2023 à 22:20
+let mdpOK = false;utmetz.univ-lorraine.fr
+let melOK = false;. 05 avr. 2023 à 22:20
 -- Version du serveur : 10.3.38-MariaDB
--- Version de PHP : 8.2.4
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+mdpErreurs.forEach((mdpErreur) => {
+    mdpErreur.style.display = "none";
+});QL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
+msgErreur.style.display = "none";
+msgErreur.style.backgroundColor = "red";
+msgErreur.style.color = "white";
+msgErreur.style.fontSize = "16px";IENT=@@CHARACTER_SET_CLIENT */;
+msgErreur.style.padding = "10px";ESULTS=@@CHARACTER_SET_RESULTS */;
+msgErreur.style.marginBottom = "10px";=@@COLLATION_CONNECTION */;
+msgErreur.style.borderRadius = "5px";
+msgErreur.style.textAlign = "center";
+msgErreur.style.justifyContent = "center";
 -- Base de données : `laroche5_pm2`
---
+document.getElementById("mel").addEventListener("input", (e) => {
+    let mel_conforme = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let msgErreurMail = document.getElementById("melErreur");
+    melOK = mel_conforme.test(document.getElementById("mel").value);
+rocédures
+    if (melOK) msgErreurMail.style.color = "green";--
+    else {TE_FAVORI` (IN `v_id_prod` INT, IN `v_id_us` INT)  NO SQL BEGIN
+        msgErreurMail.style.color = "red";
+        msgErreurMail.innerHTML = "Adresse mail non conforme";OOLEAN;
+    }
+});id_prod_existe(v_id_prod, v_id_prod_existe);
+L id_us_existe(v_id_us, v_id_us_existe);
+document.getElementById("mdp").addEventListener("input", (e) => {
+    mdpErreurs.forEach((mdpErreur) => {
+        mdpErreur.style.display = "block";
+    });
+RE id_prod = v_id_prod
+    let testLg = /.{8,}/;    AND id_us = v_id_us;
+    let testMaj = /[A-Z]/;
+    let testMin = /[a-z]/;
+    let testCar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    let testNb = /[0-9]/;
+appli`@`%` PROCEDURE `id_cat_existe` (IN `v_id_cat` INT, OUT `v_id_cat_existe` BOOLEAN)   BEGIN
+    let valeurTester = document.getElementById("mdp").value;
+    mdpOK = testLg.test(valeurTester) && testMaj.test(valeurTester) && testMin.test(valeurTester) && testCar.test(valeurTester) && testNb.test(valeurTester);
+    console.log(mdpOK);
 
-DELIMITER $$
---
--- Procédures
---
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `DELETE_FAVORI` (IN `v_id_prod` INT, IN `v_id_us` INT)  NO SQL BEGIN
+    if (testLg.test(valeurTester)) mdpErreurs[0].style.color = "green";SELECT v_id_cat IN (SELECT id_cat FROM CATEGORIE) INTO v_id_cat_existe;
+    else {
+        mdpErreurs[0].style.color = "red";t_existe = 0 THEN
+    }004 : La catégorie n°", v_id_cat, " n'existe pas");
+IGNAL v_id_cat_invalide SET MYSQL_ERRNO = "45004",
+    if (testMaj.test(valeurTester)) mdpErreurs[1].style.color = "green";    MESSAGE_TEXT = error_message;
+    else {
+        mdpErreurs[1].style.color = "red";
+    }
 
-DECLARE v_id_prod_existe, v_id_us_existe BOOLEAN;
+    if (testMin.test(valeurTester)) mdpErreurs[2].style.color = "green";CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_col_existe` (IN `v_id_col` INT, OUT `v_id_col_existe` BOOLEAN)   BEGIN
+    else {
+        mdpErreurs[2].style.color = "red";id_col_invalide CONDITION FOR SQLSTATE "45002";
+    }
 
-CALL id_prod_existe(v_id_prod, v_id_prod_existe);
-CALL id_us_existe(v_id_us, v_id_us_existe);
-
-IF v_id_prod_existe AND v_id_us_existe THEN
-
-	DELETE FROM FAVORI
-    WHERE id_prod = v_id_prod
-    AND id_us = v_id_us;
-END IF;
-
-END$$
-
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_cat_existe` (IN `v_id_cat` INT, OUT `v_id_cat_existe` BOOLEAN)   BEGIN
-
-DECLARE v_id_cat_invalide CONDITION FOR SQLSTATE "45004";
+    if (testCar.test(valeurTester)) mdpErreurs[3].style.color = "green";SELECT v_id_col IN (SELECT id_col FROM COULEUR) INTO v_id_col_existe;
+    else {
+        mdpErreurs[3].style.color = "red";l_existe = 0 THEN
+    }002 : La couleur n°", v_id_col, " n'existe pas");
+IGNAL v_id_col_invalide SET MYSQL_ERRNO = "45002",
+    if (testNb.test(valeurTester)) mdpErreurs[4].style.color = "green";    MESSAGE_TEXT = error_message;
+    else {
+        mdpErreurs[4].style.color = "red";
+    }
+});
+TE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_com_existe` (IN `v_id_com` INT, OUT `v_id_com_existe` BOOLEAN)   BEGIN
+function register() {
+    let erreur = 0;DECLARE v_id_com_invalide CONDITION FOR SQLSTATE "45005";
 DECLARE error_message VARCHAR(80);
+    const inputs = document.querySelectorAll('form input[type="text"], form input[type="password"], form input[type="date"]');
+    const values = [];(SELECT id_com FROM COMMANDE) INTO v_id_com_existe;
 
-SELECT v_id_cat IN (SELECT id_cat FROM CATEGORIE) INTO v_id_cat_existe;
+    inputs.forEach((input) => {
+        values.push(input.value.trim());:= CONCAT("Erreur 45005 : La commande n°", v_id_com, " n'existe pas");
+        if (input.value.trim() === "") {    SIGNAL v_id_com_invalide SET MYSQL_ERRNO = "45005",
+            erreur++;e;
+        }
+    });
 
-IF v_id_cat_existe = 0 THEN
-    SET error_message := CONCAT("Erreur 45004 : La catégorie n°", v_id_cat, " n'existe pas");
-    SIGNAL v_id_cat_invalide SET MYSQL_ERRNO = "45004",
-    MESSAGE_TEXT = error_message;
-END IF;
+    if (erreur !== 0) {
+        msgErreur.innerHTML = "Remplissez tous les champs !";DEFINER=`laroche5_appli`@`%` PROCEDURE `id_perm_existe` (IN `v_id_perm` INT, OUT `v_id_perm_existe` BOOLEAN)   BEGIN
+        msgErreur.style.display = "block";
+        setTimeout(() => {ide CONDITION FOR SQLSTATE "45007";
+            msgErreur.style.display = "none";
+        }, 10000);
+        return;T id_perm FROM PERMISSION) INTO v_id_perm_existe;
+    }
+e = 0 THEN
+    if (!melOK || !mdpOK) {essage := CONCAT("Erreur 45007 : La permission n°", v_id_perm, " n'existe pas");
+        msgErreur.innerHTML = "Votre mot de passe ou votre adresse mail n'est pas conforme !";IGNAL v_id_perm_invalide SET MYSQL_ERRNO = "45007",
+        msgErreur.style.display = "block";    MESSAGE_TEXT = error_message;
+        setTimeout(() => {
+            msgErreur.style.display = "none";
+        }, 10000);
+        return;
+    } `id_prod_existe` (IN `v_id_prod` INT, OUT `v_id_prod_existe` BOOLEAN)   BEGIN
 
-END$$
+    const user = { nom: values[0], prenom: values[1], login: values[2], mdp: values[3], mel: values[4], date_naiss: values[5] }od_invalide CONDITION FOR SQLSTATE "45001";
+    console.log(user);RE error_message VARCHAR(80);
+    fetch('https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/newUser.php', {
+            method: 'POST',
+            body: new URLSearchParams({
+                nom: user.nom,
+                prenom: user.prenom,NCAT("Erreur 45001 : Le produit n°", v_id_prod, " n'existe pas");
+                login: user.login,_ERRNO = "45001",
+                mdp: user.mdp,ge;
+                mel: user.mel,
+                date_naiss: user.date_naiss,
+            }),
+        })
+        .then(response => response.json())E `id_tail_existe` (IN `v_id_tail` INT, OUT `v_id_tail_existe` BOOLEAN)   BEGIN
+        .then(data => {
+            console.log(data);id_tail_invalide CONDITION FOR SQLSTATE "45003";
+            if (data.status == 'success') {
+                // L'Authentification a réussi
+                fetch('https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/connexion.php', {_tail FROM TAILLE) INTO v_id_tail_existe;
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        login: user.login,
+                        mdp: user.mdp,YSQL_ERRNO = "45003",
+                    }),
+                }).then(response => response.json().then(data => {
 
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_col_existe` (IN `v_id_col` INT, OUT `v_id_col_existe` BOOLEAN)   BEGIN
+                    let date_expiration = new Date();
+                    date_expiration.setTime(date_expiration.getTime() + (1 * 60 * 60 * 1000));
+                    document.cookie = "id_user=" + data.id_us + ";expires=" + date_expiration.toUTCString() + ";path=/";CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_us_existe` (IN `v_id_us` INT, OUT `v_id_us_existe` BOOLEAN)   BEGIN
 
-DECLARE v_id_col_invalide CONDITION FOR SQLSTATE "45002";
-DECLARE error_message VARCHAR(80);
+                    window.location.href = 'accueil.html';
+                    return;
+                }));
+            }iste;
 
-SELECT v_id_col IN (SELECT id_col FROM COULEUR) INTO v_id_col_existe;
+            // Echec0 THEN
+            msgErreur.innerHTML = data.message;_message := CONCAT("Erreur 45006 : L'user n°", v_id_us, " n'existe pas");
+            msgErreur.style.display = "block";    SIGNAL v_id_us_invalide SET MYSQL_ERRNO = "45006",
+            setTimeout(() => {rror_message;
+                msgErreur.style.display = "none";
+            }, 10000);
+        })
+        .catch(error => {
+            msgErreur.innerHTML = "Une erreur serveur est survenue.";e5_appli`@`%` PROCEDURE `INSERT_FAVORI` (IN `v_id_prod` INT, IN `v_id_us` INT)  DETERMINISTIC NO SQL BEGIN
+            msgErreur.style.display = "block";
+            setTimeout(() => {
+                msgErreur.style.display = "none";
+            }, 10000);
+        });
+};
 
-IF v_id_col_existe = 0 THEN
-    SET error_message := CONCAT("Erreur 45002 : La couleur n°", v_id_col, " n'existe pas");
-    SIGNAL v_id_col_invalide SET MYSQL_ERRNO = "45002",
-    MESSAGE_TEXT = error_message;
-END IF;
-
-END$$
-
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_com_existe` (IN `v_id_com` INT, OUT `v_id_com_existe` BOOLEAN)   BEGIN
-
-DECLARE v_id_com_invalide CONDITION FOR SQLSTATE "45005";
-DECLARE error_message VARCHAR(80);
-
-SELECT v_id_com IN (SELECT id_com FROM COMMANDE) INTO v_id_com_existe;
-
-IF v_id_com_existe = 0 THEN
-    SET error_message := CONCAT("Erreur 45005 : La commande n°", v_id_com, " n'existe pas");
-    SIGNAL v_id_com_invalide SET MYSQL_ERRNO = "45005",
-    MESSAGE_TEXT = error_message;
-END IF;
-
-END$$
-
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_perm_existe` (IN `v_id_perm` INT, OUT `v_id_perm_existe` BOOLEAN)   BEGIN
-
-DECLARE v_id_perm_invalide CONDITION FOR SQLSTATE "45007";
-DECLARE error_message VARCHAR(80);
-
-SELECT v_id_perm IN (SELECT id_perm FROM PERMISSION) INTO v_id_perm_existe;
-
-IF v_id_perm_existe = 0 THEN
-    SET error_message := CONCAT("Erreur 45007 : La permission n°", v_id_perm, " n'existe pas");
-    SIGNAL v_id_perm_invalide SET MYSQL_ERRNO = "45007",
-    MESSAGE_TEXT = error_message;
-END IF;
-
-END$$
-
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_prod_existe` (IN `v_id_prod` INT, OUT `v_id_prod_existe` BOOLEAN)   BEGIN
-
-DECLARE v_id_prod_invalide CONDITION FOR SQLSTATE "45001";
-DECLARE error_message VARCHAR(80);
-
-SELECT v_id_prod IN (SELECT id_prod FROM PRODUIT) INTO v_id_prod_existe;
-
-IF v_id_prod_existe = 0 THEN
-    SET error_message := CONCAT("Erreur 45001 : Le produit n°", v_id_prod, " n'existe pas");
-    SIGNAL v_id_prod_invalide SET MYSQL_ERRNO = "45001",
-    MESSAGE_TEXT = error_message;
-END IF;
-
-END$$
-
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_tail_existe` (IN `v_id_tail` INT, OUT `v_id_tail_existe` BOOLEAN)   BEGIN
-
-DECLARE v_id_tail_invalide CONDITION FOR SQLSTATE "45003";
-DECLARE error_message VARCHAR(80);
-
-SELECT v_id_tail IN (SELECT id_tail FROM TAILLE) INTO v_id_tail_existe;
-
-IF v_id_tail_existe = 0 THEN
-    SET error_message := CONCAT("Erreur 45003 : La taille n°", v_id_tail, " n'existe pas");
-    SIGNAL v_id_tail_invalide SET MYSQL_ERRNO = "45003",
-    MESSAGE_TEXT = error_message;
-END IF;
-
-END$$
-
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `id_us_existe` (IN `v_id_us` INT, OUT `v_id_us_existe` BOOLEAN)   BEGIN
-
-DECLARE v_id_us_invalide CONDITION FOR SQLSTATE "45006";
-DECLARE error_message VARCHAR(80);
-
-SELECT v_id_us IN (SELECT id_us FROM USER) INTO v_id_us_existe;
-
-IF v_id_us_existe = 0 THEN
-    SET error_message := CONCAT("Erreur 45006 : L'user n°", v_id_us, " n'existe pas");
-    SIGNAL v_id_us_invalide SET MYSQL_ERRNO = "45006",
-    MESSAGE_TEXT = error_message;
-END IF;
-
-END$$
-
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `INSERT_FAVORI` (IN `v_id_prod` INT, IN `v_id_us` INT)  DETERMINISTIC NO SQL BEGIN
-
-INSERT INTO FAVORI
-(id_prod, id_us)
-VALUES
-(v_id_prod, v_id_us);
-
-END$$
-
-CREATE DEFINER=`laroche5_appli`@`%` PROCEDURE `login_non_existe` (IN `v_login` VARCHAR(20), OUT `v_login_non_existe` BOOLEAN)  NO SQL BEGIN
-
-DECLARE v_login_invalide CONDITION FOR SQLSTATE "45018";
-DECLARE error_message VARCHAR(80);
-
-SELECT v_login IN (SELECT login FROM USER) INTO v_login_non_existe;
-
+document.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();EATE DEFINER=`laroche5_appli`@`%` PROCEDURE `login_non_existe` (IN `v_login` VARCHAR(20), OUT `v_login_non_existe` BOOLEAN)  NO SQL BEGIN
+    register();
+});
 IF v_login_non_existe <> 0 THEN
     SET error_message := CONCAT("Erreur 45018 : Le login ", v_login, " existe déjà");
     SIGNAL v_login_invalide SET MYSQL_ERRNO = "45018",
