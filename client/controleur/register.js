@@ -105,6 +105,30 @@ function register() {
         return;
     }
 
+    // Vérification de la date de naissance
+    const dateNaiss = new Date(values[5]);
+    const today = new Date();
+    const minDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+
+    if (dateNaiss >= today) {
+        msgErreur.innerHTML = "La date de naissance ne peut pas être aujourd'hui ou dans le futur !";
+        msgErreur.style.display = "block";
+        setTimeout(() => {
+            msgErreur.style.display = "none";
+        }, 10000);
+        return;
+    }
+
+    if (dateNaiss > minDate) {
+        msgErreur.innerHTML = "Vous devez avoir au moins 16 ans pour vous inscrire !";
+        msgErreur.style.display = "block";
+        setTimeout(() => {
+            msgErreur.style.display = "none";
+        }, 10000);
+        return;
+    }
+
+    // Vérif si l'email existe déjà
     fetch('https://devweb.iutmetz.univ-lorraine.fr/~lutz53u/BUT2/SAE4.1/serveur/api/checkEmail.php', {
         method: 'POST',
         body: new URLSearchParams({
@@ -138,7 +162,7 @@ function register() {
                     console.log(data);
                     if (data.status == 'success') {
                         // L'Authentification a réussi
-                        fetch('https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/connexion.php', {
+                        fetch('https://devweb.iutmetz.univ-lorraine.fr/~lutz53u/SAE4.1/serveur/api/connexion.php', {
                             method: 'POST',
                             body: new URLSearchParams({
                                 login: user.login,
