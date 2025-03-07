@@ -105,55 +105,79 @@ function register() {
         return;
     }
 
-    const user = { nom: values[0], prenom: values[1], login: values[2], mdp: values[3], mel: values[4], date_naiss: values[5] }
-    console.log(user);
-    fetch('https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/newUser.php', {
-            method: 'POST',
-            body: new URLSearchParams({
-                nom: user.nom,
-                prenom: user.prenom,
-                login: user.login,
-                mdp: user.mdp,
-                mel: user.mel,
-                date_naiss: user.date_naiss,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if (data.status == 'success') {
-                // L'Authentification a réussi
-                fetch('https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/connexion.php', {
+    fetch('https://devweb.iutmetz.univ-lorraine.fr/~lutz53u/BUT2/SAE4.1/serveur/api/checkEmail.php', {
+        method: 'POST',
+        body: new URLSearchParams({
+            mel: values[4]
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.exists) {
+            msgErreur.innerHTML = "L'adresse mail existe déjà !";
+            msgErreur.style.display = "block";
+            setTimeout(() => {
+                msgErreur.style.display = "none";
+            }, 10000);
+        } else {
+            const user = { nom: values[0], prenom: values[1], login: values[2], mdp: values[3], mel: values[4], date_naiss: values[5] }
+            console.log(user);
+            fetch('https://devweb.iutmetz.univ-lorraine.fr/~lutz53u/SAE4.1/serveur/api/newUser.php', {
                     method: 'POST',
                     body: new URLSearchParams({
+                        nom: user.nom,
+                        prenom: user.prenom,
                         login: user.login,
                         mdp: user.mdp,
+                        mel: user.mel,
+                        date_naiss: user.date_naiss,
                     }),
-                }).then(response => response.json().then(data => {
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.status == 'success') {
+                        // L'Authentification a réussi
+                        fetch('https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/connexion.php', {
+                            method: 'POST',
+                            body: new URLSearchParams({
+                                login: user.login,
+                                mdp: user.mdp,
+                            }),
+                        }).then(response => response.json().then(data => {
 
-                    let date_expiration = new Date();
-                    date_expiration.setTime(date_expiration.getTime() + (1 * 60 * 60 * 1000));
-                    document.cookie = "id_user=" + data.id_us + ";expires=" + date_expiration.toUTCString() + ";path=/";
+                            let date_expiration = new Date();
+                            date_expiration.setTime(date_expiration.getTime() + (1 * 60 * 60 * 1000));
+                            document.cookie = "id_user=" + data.id_us + ";expires=" + date_expiration.toUTCString() + ";path=/";
 
-                    window.location.href = 'accueil.html';
-                    return;
-                }));
-            }
+                            window.location.href = 'accueil.html';
+                            return;
+                        }));
+                    }
 
-            // Echec
-            msgErreur.innerHTML = data.message;
-            msgErreur.style.display = "block";
-            setTimeout(() => {
-                msgErreur.style.display = "none";
-            }, 10000);
-        })
-        .catch(error => {
-            msgErreur.innerHTML = "Une erreur serveur est survenue.";
-            msgErreur.style.display = "block";
-            setTimeout(() => {
-                msgErreur.style.display = "none";
-            }, 10000);
-        });
+                    // Echec
+                    msgErreur.innerHTML = data.message;
+                    msgErreur.style.display = "block";
+                    setTimeout(() => {
+                        msgErreur.style.display = "none";
+                    }, 10000);
+                })
+                .catch(error => {
+                    msgErreur.innerHTML = "Une erreur serveur est survenue.";
+                    msgErreur.style.display = "block";
+                    setTimeout(() => {
+                        msgErreur.style.display = "none";
+                    }, 10000);
+                });
+        }
+    })
+    .catch(error => {
+        msgErreur.innerHTML = "Une erreur serveur est survenue.";
+        msgErreur.style.display = "block";
+        setTimeout(() => {
+            msgErreur.style.display = "none";
+        }, 10000);
+    });
 };
 
 document.querySelector('form').addEventListener('submit', (e) => {
