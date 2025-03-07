@@ -2,9 +2,9 @@
 
 $db_config['SGBD'] = 'mysql';
 $db_config['HOST'] = 'devbdd.iutmetz.univ-lorraine.fr';
-$db_config['DB_NAME'] = 'laroche5_pm2';
-$db_config['USER'] = 'laroche5_appli';
-$db_config['PASSWORD'] = '*******************';
+$db_config['DB_NAME'] = 'lutz53u_SAE_PM2';
+$db_config['USER'] = 'lutz53u_appli';
+$db_config['PASSWORD'] = '32300736';
 
 
 try {

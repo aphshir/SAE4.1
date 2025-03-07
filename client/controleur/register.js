@@ -7,7 +7,7 @@ let melOK = false;
 
 mdpErreurs.forEach((mdpErreur) => {
     mdpErreur.style.display = "none";
-  });
+});
 
 msgErreur.style.display = "none";
 msgErreur.style.backgroundColor = "red";
@@ -23,10 +23,11 @@ document.getElementById("mel").addEventListener("input", (e) => {
     let mel_conforme = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let msgErreurMail = document.getElementById("melErreur");
     melOK = mel_conforme.test(document.getElementById("mel").value);
-    
 
-    if (melOK) msgErreurMail.style.color = "green";
-    else{
+    if (melOK) {
+        msgErreurMail.style.color = "green";
+        msgErreurMail.innerHTML = "Adresse mail conforme";
+    } else {
         msgErreurMail.style.color = "red";
         msgErreurMail.innerHTML = "Adresse mail non conforme";
     }
@@ -42,7 +43,7 @@ document.getElementById("mdp").addEventListener("input", (e) => {
     let testMin = /[a-z]/;
     let testCar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
     let testNb = /[0-9]/;
-    
+
     let valeurTester = document.getElementById("mdp").value;
     mdpOK = testLg.test(valeurTester) && testMaj.test(valeurTester) && testMin.test(valeurTester) && testCar.test(valeurTester) && testNb.test(valeurTester);
     console.log(mdpOK);
@@ -71,9 +72,21 @@ document.getElementById("mdp").addEventListener("input", (e) => {
     else {
         mdpErreurs[4].style.color = "red";
     }
-    
 });
 
+document.getElementById("mdpConfirm").addEventListener("input", (e) => {
+    const password = document.getElementById("mdp").value;
+    const confirmPassword = document.getElementById("mdpConfirm").value;
+    const msgErreurConfirm = document.getElementById("mdpConfirmErreur");
+
+    if (password !== confirmPassword) {
+        msgErreurConfirm.style.color = "red";
+        msgErreurConfirm.innerHTML = "Les mots de passe ne correspondent pas";
+    } else {
+        msgErreurConfirm.style.color = "green";
+        msgErreurConfirm.innerHTML = "Les mots de passe correspondent";
+    }
+});
 
 function register() {
     let erreur = 0;
@@ -82,8 +95,8 @@ function register() {
     const values = [];
 
     inputs.forEach((input) => {
-        values.push(input.value);
-        if (input.value === null) {
+        values.push(input.value.trim());
+        if (input.value.trim() === "") {
             erreur++;
         }
     });
@@ -106,58 +119,124 @@ function register() {
         return;
     }
 
-    const user = { nom: values[0], prenom: values[1], login: values[2], mdp: values[3], mel: values[4], date_naiss: values[5] }
-    console.log(user);
-    fetch('https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/newUser.php', {
-            method: 'POST',
-            body: new URLSearchParams({
-                nom: user.nom,
-                prenom: user.prenom,
-                login: user.login,
-                mdp: user.mdp,
-                mel: user.mel,
-                date_naiss: user.date_naiss,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if (data.status == 'success') {
-                // L'Authentification a réussi
-                fetch('https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/connexion.php', {
+    const password = document.getElementById("mdp").value;
+    const confirmPassword = document.getElementById("mdpConfirm").value;
+    if (password !== confirmPassword) {
+        msgErreur.innerHTML = "Les mots de passe ne correspondent pas !";
+        msgErreur.style.display = "block";
+        setTimeout(() => {
+            msgErreur.style.display = "none";
+        }, 10000);
+        return;
+    }
+
+    // Vérification de la date de naissance
+    const dateNaiss = new Date(values[5]);
+    const today = new Date();
+    const minDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate());
+
+    if (dateNaiss >= today) {
+        msgErreur.innerHTML = "La date de naissance ne peut pas être aujourd'hui ou dans le futur !";
+        msgErreur.style.display = "block";
+        setTimeout(() => {
+            msgErreur.style.display = "none";
+        }, 10000);
+        return;
+    }
+
+    if (dateNaiss > minDate) {
+        msgErreur.innerHTML = "Vous devez avoir au moins 16 ans pour vous inscrire !";
+        msgErreur.style.display = "block";
+        setTimeout(() => {
+            msgErreur.style.display = "none";
+        }, 10000);
+        return;
+    }
+
+    // Vérif si l'email existe déjà
+    fetch('https://devweb.iutmetz.univ-lorraine.fr/~lutz53u/BUT2/SAE4.1/serveur/api/checkEmail.php', {
+        method: 'POST',
+        body: new URLSearchParams({
+            mel: values[4]
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.exists) {
+            msgErreur.innerHTML = "L'adresse mail existe déjà !";
+            msgErreur.style.display = "block";
+            setTimeout(() => {
+                msgErreur.style.display = "none";
+            }, 10000);
+        } else {
+            const user = { nom: values[0], prenom: values[1], login: values[2], mdp: values[3], mel: values[4], date_naiss: values[5] }
+            console.log(user);
+            fetch('https://devweb.iutmetz.univ-lorraine.fr/~lutz53u/SAE4.1/serveur/api/newUser.php', {
                     method: 'POST',
                     body: new URLSearchParams({
+                        nom: user.nom,
+                        prenom: user.prenom,
                         login: user.login,
                         mdp: user.mdp,
+                        mel: user.mel,
+                        date_naiss: user.date_naiss,
                     }),
-                }).then(response => response.json().then(data => {
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.status == 'success') {
+                        // L'Authentification a réussi
+                        fetch('https://devweb.iutmetz.univ-lorraine.fr/~lutz53u/SAE4.1/serveur/api/connexion.php', {
+                            method: 'POST',
+                            body: new URLSearchParams({
+                                login: user.login,
+                                mdp: user.mdp,
+                            }),
+                        }).then(response => response.json().then(data => {
 
-                    let date_expiration = new Date();
-                    date_expiration.setTime(date_expiration.getTime() + (1 * 60 * 60 * 1000));
-                    document.cookie = "id_user=" + data.id_us + ";expires=" + date_expiration.toUTCString() + ";path=/";
+                            let date_expiration = new Date();
+                            date_expiration.setTime(date_expiration.getTime() + (1 * 60 * 60 * 1000));
+                            document.cookie = "id_user=" + data.id_us + ";expires=" + date_expiration.toUTCString() + ";path=/";
 
-                    window.location.href = 'accueil.html';
-                    return;
-                }));
-            }
+                            window.location.href = 'accueil.html';
+                            return;
+                        }));
+                    }
 
-            // Echec
-            msgErreur.innerHTML = data.message;
-            msgErreur.style.display = "block";
-            setTimeout(() => {
-                msgErreur.style.display = "none";
-            }, 10000);
-        })
-        .catch(error => {
-            msgErreur.innerHTML = "Une erreur serveur est survenue.";
-            msgErreur.style.display = "block";
-            setTimeout(() => {
-                msgErreur.style.display = "none";
-            }, 10000);
-        });
+                    // Echec
+                    msgErreur.innerHTML = data.message;
+                    msgErreur.style.display = "block";
+                    setTimeout(() => {
+                        msgErreur.style.display = "none";
+                    }, 10000);
+                })
+                .catch(error => {
+                    msgErreur.innerHTML = "Une erreur serveur est survenue.";
+                    msgErreur.style.display = "block";
+                    setTimeout(() => {
+                        msgErreur.style.display = "none";
+                    }, 10000);
+                });
+        }
+    })
+    .catch(error => {
+        msgErreur.innerHTML = "Une erreur serveur est survenue.";
+        msgErreur.style.display = "block";
+        setTimeout(() => {
+            msgErreur.style.display = "none";
+        }, 10000);
+    });
 };
 
 document.querySelector('form').addEventListener('submit', (e) => {
     e.preventDefault();
     register();
+});
+
+document.getElementById("togglePassword").addEventListener("click", function () {
+    const passwordField = document.getElementById("mdp");
+    const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+    passwordField.setAttribute("type", type);
+    this.classList.toggle("fa-eye-slash");
 });
