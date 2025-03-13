@@ -18,12 +18,12 @@ input[type=number] {
 }
 
 body {
-    background: whitesmoke;
-    font-family: Helvetica;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
     margin: 0;
     padding: 0;
     width: 100%;
-    color: #232323;
     /* pour que le footer soit toujours en bas de la page */
     min-height: 100vh;
     display: flex;
@@ -55,12 +55,13 @@ article h1 {
 }
 
 footer {
-    width: 100%;
-    background-color: #ba0324;
-    color: #5f8755;
+    background-color: #343a40;
+    color: #fff;
     text-align: center;
-    /* pour que le footer soit toujours en bas de la page */
-    margin-top: auto;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
 
 footer p {
@@ -83,7 +84,7 @@ section {
     width: 100%;
     max-width: 500px;
     margin: 30px auto 0 auto;
-    /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);*/
+    /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24); */
     padding: 15px;
     box-sizing: border-box;
     border-radius: 5px;
@@ -94,9 +95,15 @@ form {
 }
 
 h1 {
-    margin: 0 auto;
-    padding-bottom: 10px;
     text-align: center;
+    margin: 20px 0;
+    font-size: 2.5rem;
+}
+
+h1 span {
+    display: block;
+    font-size: 1.2rem;
+    color: #6c757d;
 }
 
 header {
@@ -109,6 +116,17 @@ header {
     text-transform: uppercase;
 }
 
+header.sticky {
+    background-color: #343a40;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header.sticky img {
+    cursor: pointer;
+}
 
 /* Boutons de navigation dans le header */
 
@@ -136,7 +154,6 @@ header nav a:hover {
     color: #5f8755;
     text-decoration: none;
 }
-
 
 /* Titre dans le header */
 
@@ -191,7 +208,7 @@ th {
 }
 
 .accueil>h1 {
-    background-color: #5f8755;
+    background-color: #232323;
     color: black;
     font-size: 30px;
     margin: 30px auto 5vh auto;
@@ -203,7 +220,6 @@ th {
 .accueil section {
     max-width: 1500px;
 }
-
 
 /* Uniquement sur la page d'accueil */
 
@@ -253,7 +269,6 @@ th {
 .accueil>p a:hover {
     text-decoration: underline;
 }
-
 
 /* Bouton pour créer quelque chose, bouton retour et bouton pour valider un formulaire */
 
@@ -359,7 +374,6 @@ th {
     text-decoration: underline;
 }
 
-
 /* Logo en haut à droite et le bouton du menu déroulant en haut à gauche */
 
 .logo,
@@ -403,7 +417,6 @@ th {
 .red:hover {
     background-color: darkgray;
 }
-
 
 /* Bouton recherche*/
 
@@ -535,7 +548,6 @@ form.search {
     text-align: center;
 }
 
-
 /* #input_qte,
 input[type='number'].qte {
     display: inline-block;
@@ -608,4 +620,12 @@ input[type='number'].qte {
     .btn_retour {
         position: absolute;
     }
+}
+
+.produits {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
 }

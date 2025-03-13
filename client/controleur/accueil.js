@@ -83,7 +83,7 @@ function afficherTousLesProduits() {
     const couleur = urlParams.get("idCouleur");
 
     const produitGenerique =
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getGenericProduits.php";
+    "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getGenericProduits.php";
     const produitComplet =
         "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getProduits.php";
     const url = taille || couleur ? produitComplet : produitGenerique;
