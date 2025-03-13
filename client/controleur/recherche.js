@@ -61,11 +61,11 @@ async function fillMaps() {
             if (!categorie.includes(produit.id_coul)) {
                 categorie.push(produit.id_coul);
             }
-            couleurByCategorie.set(produit.id_coul, categorie);
+            couleurByCategorie.set(produit.id_cat, categorie);
         } else {
             couleurByCategorie.set(produit.id_cat, [produit.id_coul]);
         }
-    });
+    });    
     return [couleurByCategorie, tailleByCategorie];
 }
 
@@ -122,8 +122,7 @@ function fetchSpecification(select, url, default_name, searchParam) {
     return fetch(url)
         .then((reponse) => reponse.json())
         .then((data) => {
-            if (default_name == "Catégorie") ajouterOptions(select, data.data, default_name, searchParam);
-            else ajouterOptions(select, [], default_name, searchParam);
+            ajouterOptions(select, data.data, default_name, searchParam);
         })
         .catch((error) => console.log(error));
 }
@@ -168,9 +167,9 @@ selectCategorie.addEventListener("change", (e) => {
             let couleur = []
             let taille = []
             prod_cat.forEach((produit) => {
-                couleur.push(produit.id_col);
+                couleur.push(produit.id_coul); 
                 taille.push(produit.id_tail);
-            });
+            });            
             couleur = couleur.filter((v, i, a) => a.indexOf(v) === i);
             taille = taille.filter((v, i, a) => a.indexOf(v) === i);
             fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getCouleurs.php").then((reponse) => reponse.json().then((data) => {
