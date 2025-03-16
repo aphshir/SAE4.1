@@ -44,10 +44,6 @@ boutonRechercher.style.color = "white";
 barreRecherche.style.border = "1px solid black"; 
 barreRecherche.style.borderRadius = "5px"; 
 
-
-
-// xs, sm, md, lg, xl
-
 async function getInfoProd() {
     return await fetch(
         "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getGenericProduits.php", {
@@ -56,6 +52,7 @@ async function getInfoProd() {
         }
     ).then((reponse) => reponse.json());
 }
+
 async function fillMaps() {
     var tailleByCategorie = new Map();
     var couleurByCategorie = new Map();
@@ -93,12 +90,14 @@ fetchSpecification(
     "Catégorie",
     "idCategorie"
 );
+
 fetchSpecification(
     selectCouleur,
     "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getCouleurs.php",
     "Couleur",
     "idCouleur"
 );
+
 fetchSpecification(
     selectTaille,
     "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getTailles.php",
@@ -179,23 +178,4 @@ function traiterChaine(barreRecherche) {
 
 selectCategorie.addEventListener("change", (e) => {
     e.preventDefault();
-    const selectedCategorie = selectCategorie.value;
-    const couleurs = couleurByCategorie.get(parseInt(selectedCategorie)) || [];
-    const tailles = tailleByCategorie.get(parseInt(selectedCategorie)) || [];
-
-    fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getCouleurs.php")
-        .then((reponse) => reponse.json())
-        .then((data) => {
-            const nom_couleur = data.data.filter((couleur) => couleurs.includes(couleur.id_coul));
-            removeAll(selectCouleur);
-            ajouterOptions(selectCouleur, nom_couleur, "Couleur", "idCouleur");
-        });
-
-    fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getTailles.php")
-        .then((reponse) => reponse.json())
-        .then((data) => {
-            const nom_taille = data.data.filter((taille) => tailles.includes(taille.id_tail));
-            removeAll(selectTaille);
-            ajouterOptions(selectTaille, nom_taille, "Taille", "idTaille");
-        });
 });
