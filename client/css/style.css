@@ -6,15 +6,12 @@
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0;
-    /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 input[type=number] {
     -moz-appearance: textfield;
-    /* Firefox */
 }
 
 body {
@@ -24,7 +21,6 @@ body {
     padding: 0;
     width: 100%;
     color: #232323;
-    /* pour que le footer soit toujours en bas de la page */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -59,7 +55,6 @@ footer {
     background-color: #ba0324;
     color: #5f8755;
     text-align: center;
-    /* pour que le footer soit toujours en bas de la page */
     margin-top: auto;
 }
 
@@ -83,7 +78,6 @@ section {
     width: 100%;
     max-width: 500px;
     margin: 30px auto 0 auto;
-    /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);*/
     padding: 15px;
     box-sizing: border-box;
     border-radius: 5px;
@@ -100,17 +94,15 @@ h1 {
 }
 
 header {
+    position: relative;
     margin: 0;
     width: 100%;
-    background-color: #ba0324;
+    background-color: #ffffff;
     color: black;
     text-align: center;
     font-weight: bold;
     text-transform: uppercase;
 }
-
-
-/* Boutons de navigation dans le header */
 
 header nav {
     width: 30%;
@@ -138,10 +130,8 @@ header nav a:hover {
 }
 
 
-/* Titre dans le header */
-
-header h1 {
-    display: none;
+header h1:hover {
+    color: #2d8a5b; 
 }
 
 iframe {
@@ -177,7 +167,6 @@ select {
 }
 
 table {
-    /* color: whitesmoke; */
     background-color: #5f8755;
     box-shadow: 5px 5px green;
     border-radius: 4px;
@@ -203,9 +192,6 @@ th {
 .accueil section {
     max-width: 1500px;
 }
-
-
-/* Uniquement sur la page d'accueil */
 
 .accueil div div {
     box-sizing: border-box;
@@ -253,9 +239,6 @@ th {
 .accueil>p a:hover {
     text-decoration: underline;
 }
-
-
-/* Bouton pour créer quelque chose, bouton retour et bouton pour valider un formulaire */
 
 .btn_creation,
 .btn_retour {
@@ -345,7 +328,6 @@ th {
 .btn_modif:hover,
 .btn_retour:hover {
     background-color: white;
-    /* color: #5f8755; */
 }
 
 .form_img {
@@ -359,9 +341,6 @@ th {
     text-decoration: underline;
 }
 
-
-/* Logo en haut à droite et le bouton du menu déroulant en haut à gauche */
-
 .logo,
 #btn_deroul_top,
 #btn_deroul_recherche {
@@ -371,7 +350,10 @@ th {
 
 .logo {
     position: absolute;
-    left: 1rem;
+    left: 0;
+    top: 0;
+    margin: 0;
+    z-index: 10;
 }
 
 #btn_deroul_top {
@@ -404,9 +386,6 @@ th {
     background-color: darkgray;
 }
 
-
-/* Bouton recherche*/
-
 form.search {
     margin-bottom: 1em;
     display: flex;
@@ -427,7 +406,6 @@ form.search {
     padding: 0 2px;
     border: 1px solid black;
     border-radius: 4px;
-    /* color: whitesmoke; */
 }
 
 .search>input[name='key'] {
@@ -535,12 +513,6 @@ form.search {
     text-align: center;
 }
 
-
-/* #input_qte,
-input[type='number'].qte {
-    display: inline-block;
-} */
-
 @media screen and (min-width: 700px) {
     .accueil h1 {
         font-size: 50px;
@@ -580,7 +552,6 @@ input[type='number'].qte {
     }
     header h1 {
         display: block;
-        border-radius: 0;
         border-left: 2px solid #2d8a5b;
         text-align: left;
         padding: 0 1rem;

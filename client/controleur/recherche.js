@@ -10,7 +10,8 @@ const tailleByCategorie = maps[0];
 const couleurByCategorie = maps[1];
 
 barreRecherche.setAttribute("type", "text");
-barreRecherche.setAttribute("placeholder", "Rechercher des produits..."); // Ajout du placeholder
+barreRecherche.setAttribute("placeholder", "Rechercher des produits...");
+barreRecherche.style.setProperty("color", "black", "!important");
 boutonRechercher.setAttribute("type", "button");
 boutonRechercher.setAttribute("value", "Rechercher");
 boutonRechercher.classList.add("form_button");
@@ -28,6 +29,22 @@ selectTaille.classList.add("col-xl-1");
 selectTaille.classList.add("col-sm-4");
 boutonRechercher.classList.add("col-xl-1");
 boutonRechercher.classList.add("col-sm-12");
+
+divRecherche.style.backgroundColor = "#f0f0f0"; 
+divRecherche.style.padding = "10px"; 
+divRecherche.style.borderRadius = "5px"; 
+
+barreRecherche.style.backgroundColor = "#ffffff"; 
+selectCategorie.style.backgroundColor = "#ffffff";
+selectCouleur.style.backgroundColor = "#ffffff";
+selectTaille.style.backgroundColor = "#ffffff";
+boutonRechercher.style.backgroundColor = "#d9534f"; 
+boutonRechercher.style.color = "white"; 
+
+barreRecherche.style.border = "1px solid black"; 
+barreRecherche.style.borderRadius = "5px"; 
+
+
 
 // xs, sm, md, lg, xl
 
