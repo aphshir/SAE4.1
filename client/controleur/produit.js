@@ -131,7 +131,7 @@ async function AfficherProd() {
                 method: "POST",
 
                 body: new URLSearchParams({
-                    id_prod: new URLSearchParams(window.location.search).get("id"), // id_prod
+                    id_prod: new URLSearchParams(window.location.search).get("id"), 
                 }),
             }
         )
@@ -234,52 +234,42 @@ function boutonCommander(id_produit) {
     const boutton = root.querySelector("input[type=button]");
     boutton.addEventListener("click", (event) => {
         const nbCommandee = root.getElementById("nbrCommande").valueAsNumber;
+        if (!cookieValue) {
+            alert("Vous devez être connecté pour ajouter ce produit au panier.");
+            return;
+        }
         if (quantiteCommandeeValide(nbCommandee)) {
-            const tailleSelect = root
-                .getElementById("taille")
-                .querySelector("select");
-            const couleurSelect = root
-                .getElementById("couleur")
-                .querySelector("select");
+            const tailleSelect = root.getElementById("taille").querySelector("select");
+            const couleurSelect = root.getElementById("couleur").querySelector("select");
             const tailleID = tailleSelect.options[tailleSelect.selectedIndex].value;
-            const couleurID =
-                couleurSelect.options[couleurSelect.selectedIndex].value;
-            // console.log(nbCommandee, tailleID, couleurID)
-            // console.log(JSON.stringify({ id_cl: 3, id_prod: id_produit, id_taille: tailleID, couleur: couleurID, qte_pan: nbCommandee }))
-            fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/newPanier.php", {
-                    method: "POST",
-                    body: new URLSearchParams({
-                        id_us: cookieValue,
-                        id_prod: id,
-                        id_tail: tailleID,
-                        id_col: couleurID,
-                        qte_pan: nbCommandee,
-                    }),
-                })
-                .then((reponse) => {
-                    reponse.json().then((data) => {
-                        if (data.status === "error") {
-                            alert("vous avez déjà ce produit dans votre panier")
-                        } else if (data.status === "success") {
-                            window.location.href = "accueil.html";
-                        }
-                    })
-                })
-                .catch((error) => { console.log(error) });
-        };
-        console.log(nbCommandee, tailleID, couleurID);
-        console.log(
-            JSON.stringify({
-                id_cl: 1,
-                id_prod: id_produit,
-                id_taille: tailleID,
-                couleur: couleurID,
-                qte_pan: nbCommandee,
-            })
-        );
-    });
+            const couleurID = couleurSelect.options[couleurSelect.selectedIndex].value;
 
+            fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/newPanier.php", {
+                method: "POST",
+                body: new URLSearchParams({
+                    id_us: cookieValue,
+                    id_prod: id,
+                    id_tail: tailleID,
+                    id_col: couleurID,
+                    qte_pan: nbCommandee,
+                }),
+            })
+            .then((reponse) => reponse.json())
+            .then((data) => {
+                if (data.status === "error") {
+                    alert("Vous avez déjà ce produit dans votre panier.");
+                } else if (data.status === "success") {
+                    window.location.href = "accueil.html";
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Une erreur est survenue. Veuillez réessayer.");
+            });
+        }
+    });
 }
+
 
 // function verifierPanierUtilisateur() {
 //     fetch(
