@@ -201,4 +201,3 @@ selectCategorie.addEventListener("change", (e) => {
             }))
         }));
 });
-});
