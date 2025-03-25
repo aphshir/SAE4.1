@@ -94,7 +94,6 @@ function register() {
 
     let erreur = 0;
 
-
     const inputs = document.querySelectorAll('form input[type="text"], form input[type="password"], form input[type="date"]');
     const values = [];
 
@@ -166,39 +165,40 @@ function register() {
         return;
     }
 
-            const user = { nom: values[0], prenom: values[1], login: values[2], mdp: values[3], mel: values[4], date_naiss: values[5] }
-            console.log(user);
-            fetch('../../serveur/api/newUser.php', {
-                method: 'POST',
-                body: new URLSearchParams({
-                    nom: user.nom,
-                    prenom: user.prenom,
-                    login: user.login,
-                    mdp: user.mdp,
-                    mel: user.mel,
-                    date_naiss: user.date_naiss,
-                }),
-            })
-            .then(response => response.text())  // Récupérer la réponse sous forme de texte brut
-            .then(data => {
-                console.log("Réponse brute du serveur:", data);  // Affiche la réponse brute
-                try {
-                    const jsonData = JSON.parse(data);  // Essayez de convertir en JSON
-                    console.log(jsonData);
-                    if (jsonData.status === 'success') {
-                        // Suivant la logique, rediriger ou afficher un message de succès
-                    } else {
-                        console.error("Erreur : " + jsonData.message);
-                    }
-                } catch (error) {
-                    console.error("Erreur de parsing JSON:", error);
-                }
-            })
-            .catch(error => {
-                console.error("Erreur de fetch:", error);
-            });
-            
-        };
+    const user = { nom: values[0], prenom: values[1], login: values[2], mdp: values[3], mel: values[5], date_naiss: values[6] }
+    console.log(values);
+    console.log(user);
+    fetch('../../serveur/api/newUser.php', {
+        method: 'POST',
+        body: new URLSearchParams({
+            nom: user.nom,
+            prenom: user.prenom,
+            login: user.login,
+            mdp: user.mdp,
+            mel: user.mel,
+            date_naiss: user.date_naiss,
+        }),
+    })
+    .then(response => response.text())  // Récupérer la réponse sous forme de texte brut
+    .then(data => {
+        console.log("Réponse brute du serveur:", data);  // Affiche la réponse brute
+        try {
+            const jsonData = JSON.parse(data);  // Essayez de convertir en JSON
+            console.log(jsonData);
+            if (jsonData.status === 'success') {
+                // Suivant la logique, rediriger ou afficher un message de succès
+            } else {
+                console.error("Erreur : " + jsonData.message);
+            }
+        } catch (error) {
+            console.error("Erreur de parsing JSON:", error);
+            console.error("Réponse brute du serveur:", data);  // Affiche la réponse brute pour le débogage
+        }
+    })
+    .catch(error => {
+        console.error("Erreur de fetch:", error);
+    });
+}
 
 document.querySelector('form').addEventListener('submit', (e) => {
     e.preventDefault();
