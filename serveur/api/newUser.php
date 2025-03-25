@@ -6,7 +6,7 @@ require_once 'header.php';
 
 header('Content-Type: application/json');  // Important pour que le client sache que la réponse est du JSON
 
-var_dump($_POST);
+//var_dump($_POST);
 $json = [];
 
 // Vérification des paramètres POST
