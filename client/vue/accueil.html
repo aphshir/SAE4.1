@@ -68,7 +68,26 @@
         .footer a:hover {
             text-decoration: underline;
         }
-        
+
+        .pagination {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .page-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .page-btn:hover {
+            background-color: #0056b3;
+        }
+ 
     </style>
 </head>
 
@@ -85,6 +104,8 @@
     <section>
         <div class="produits row"></div>
     </section>
+
+    <div id="pagination" class="pagination"></div>
 
     <!-- Bandeau politique des cookies -->
     <div id="cookie-banner" class="cookie-banner" style="display: none;">
