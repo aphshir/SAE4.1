@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
 $db_config['SGBD'] = 'mysql';
-$db_config['HOST'] = 'devbdd.iutmetz.univ-lorraine.fr';
-$db_config['DB_NAME'] = 'lutz53u_SAE_PM2';
-$db_config['USER'] = 'lutz53u_appli';
-$db_config['PASSWORD'] = '32300736';
+$db_config['HOST'] = 'localhost';
+$db_config['DB_NAME'] = 'sae41';
+$db_config['USER'] = 'root';
+$db_config['PASSWORD'] = '';
 
 
 try {

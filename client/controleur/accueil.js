@@ -18,8 +18,9 @@ export class ProduitGenerique extends HTMLElement {
         }
         .img_prod {
             margin: 3%;
-            height: auto;
-            max-width: 94%;
+            height: 200px;
+            width: 95%;
+            object-fit: cover;
             border-radius: 4px;
         }
         .etoile{
@@ -83,7 +84,7 @@ function afficherTousLesProduits() {
     const couleur = urlParams.get("idCouleur");
 
     const produitGenerique =
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getGenericProduits.php";
+    "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getGenericProduits.php";
     const produitComplet =
         "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getProduits.php";
     const url = taille || couleur ? produitComplet : produitGenerique;

@@ -12,9 +12,60 @@
         span {
             display: none;
         }
-        
+
         input[type="text"] {
             width: none;
+        }
+
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+            z-index: 9999;
+        }
+
+        .cookie-banner a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .cookie-banner button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        .cookie-banner button:hover {
+            background-color: #45a049;
+        }
+
+        /* Footer général */
+        .footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
         }
 
         .produits img {
@@ -39,17 +90,50 @@
         <div class="produits row"></div>
     </section>
 
-    <footer id="printFooter"></footer>
-</body>
+    <!-- Bandeau politique des cookies -->
+    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+        <p>
+            Ce site utilise des cookies pour améliorer votre expérience. En poursuivant votre navigation, vous acceptez notre <a href="politique-de-cookies.html">politique de cookies</a>.
+            <button id="accept-cookies">Fermer</button>
+        </p>
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-<script>
-    const span = $("span");
-    console.log(span)
-    span.innerHTML = (window.innerWidth == 1000 ? " - " : "<br />") + span.innerHTML
-</script>
-<script type="module" src="../controleur/accueil.js"></script>
-<script type="module" src="../controleur/function.js"></script>
-<script type="module" src="../controleur/recherche.js"></script>
+    <!-- Footer avec lien vers la politique de confidentialité -->
+    <footer class="footer">
+        <p>
+            <a href="politique-ecommerce.html">Politique de confidentialité</a> | 
+            <a href="politique-de-cookies.html">Politique de cookies</a>
+        </p>
+        <p>&copy; 2025 PM2 - Tous droits réservés</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script>
+        // Fonction pour vérifier le consentement des cookies
+        function checkCookieConsent() {
+            const cookieConsent = document.cookie.split('; ').find(row => row.startsWith('cookieConsent='));
+            if (!cookieConsent) {
+                // Afficher le bandeau si l'utilisateur n'a pas encore accepté
+                document.getElementById('cookie-banner').style.display = 'block';
+            }
+        }
+
+        // Fonction pour accepter les cookies
+        function acceptCookies() {
+            document.cookie = "cookieConsent=true; path=/; max-age=" + 60 * 60 * 24 * 365; // Cookie valable 1 an
+            document.getElementById('cookie-banner').style.display = 'none'; // Cacher le bandeau après acceptation
+        }
+
+        // Ajouter un événement au bouton pour accepter les cookies
+        document.getElementById('accept-cookies').addEventListener('click', acceptCookies);
+
+        // Vérifier le consentement dès que la page est chargée
+        window.onload = checkCookieConsent;
+    </script>
+
+    <script type="module" src="../controleur/accueil.js"></script>
+    <script type="module" src="../controleur/function.js"></script>
+    <script type="module" src="../controleur/recherche.js"></script>
+</body>
 
 </html>
