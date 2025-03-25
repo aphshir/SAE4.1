@@ -26,7 +26,7 @@ async function authentifier() {
         return;
     }
     const reponse = await fetch(
-        "../serveur/api/connexion.php", {
+        "../../serveur/api/connexion.php", {
             method: "POST",
             body: new URLSearchParams({
                 login: login,
