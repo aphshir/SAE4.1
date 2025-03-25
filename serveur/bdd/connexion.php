@@ -2,7 +2,7 @@
 
 $db_config['SGBD'] = 'mysql';
 $db_config['HOST'] = 'localhost';
-$db_config['DB_NAME'] = 's';
+$db_config['DB_NAME'] = 'sae41';
 $db_config['USER'] = 'root';
 $db_config['PASSWORD'] = '';
 

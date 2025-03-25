@@ -6,6 +6,7 @@ require_once 'header.php';
 
 header('Content-Type: application/json');  // Important pour que le client sache que la réponse est du JSON
 
+var_dump($_POST);
 $json = [];
 
 // Vérification des paramètres POST
@@ -39,12 +40,19 @@ $res->bindValue(':salt', '');  // Vous pouvez laisser le salt vide si vous utili
 
 try {
     $res->execute();
-    $json["status"] = "success";
-    $json["message"] = "Insertion réussie";
+    $affectedRows = $res->rowCount();  // Nombre de lignes affectées par la requête
+    if ($affectedRows > 0) {
+        $json["status"] = "success";
+        $json["message"] = "Insertion réussie";
+    } else {
+        $json["status"] = "error";
+        $json["message"] = "Aucune ligne insérée";
+    }
 } catch (Exception $exception) {
     $json["status"] = "error";
     $json["message"] = $exception->getMessage();
 }
 
 echo json_encode($json);
+
 ?>

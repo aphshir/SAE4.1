@@ -16,6 +16,38 @@
         input[type="text"] {
             width: none;
         }
+
+        /* Style pour le bandeau de politique des cookies */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            z-index: 9999;
+        }
+
+        .cookie-banner a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .cookie-banner button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-left: 20px;
+        }
+
+        .cookie-banner button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 
@@ -34,16 +66,47 @@
     </section>
 
     <footer id="printFooter"></footer>
-</body>
 
-<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-<script>
-    const span = $("span");
-    console.log(span)
-    span.innerHTML = (window.innerWidth == 1000 ? " - " : "<br />") + span.innerHTML
-</script>
-<script type="module" src="../controleur/accueil.js"></script>
-<script type="module" src="../controleur/function.js"></script>
-<script type="module" src="../controleur/recherche.js"></script>
+    <!-- Bandeau politique des cookies -->
+    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+        <p>
+            Ce site utilise des cookies pour améliorer votre expérience. En poursuivant votre navigation, vous acceptez notre <a href="/politique-de-cookies.html">politique de cookies</a>.
+            <button id="accept-cookies">Accepter</button>
+        </p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script>
+        const span = $("span");
+        console.log(span)
+        span.innerHTML = (window.innerWidth == 1000 ? " - " : "<br />") + span.innerHTML
+
+        // Vérifier si l'utilisateur a accepté les cookies
+        function checkCookieConsent() {
+            const cookieConsent = document.cookie.split('; ').find(row => row.startsWith('cookieConsent='));
+            if (!cookieConsent) {
+                // Si l'utilisateur n'a pas accepté les cookies, afficher le bandeau
+                document.getElementById('cookie-banner').style.display = 'block';
+            }
+        }
+
+        // Gérer l'acceptation des cookies
+        function acceptCookies() {
+            document.cookie = "cookieConsent=true; path=/; max-age=" + 60 * 60 * 24 * 365; // Cookie valable pendant 1 an
+            document.getElementById('cookie-banner').style.display = 'none'; // Cacher le bandeau
+        }
+
+        // Ajouter un événement sur le bouton pour accepter les cookies
+        document.getElementById('accept-cookies').addEventListener('click', acceptCookies);
+
+        // Vérifier le consentement dès que la page est chargée
+        window.onload = checkCookieConsent;
+
+    </script>
+
+    <script type="module" src="../controleur/accueil.js"></script>
+    <script type="module" src="../controleur/function.js"></script>
+    <script type="module" src="../controleur/recherche.js"></script>
+</body>
 
 </html>
