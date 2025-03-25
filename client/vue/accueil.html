@@ -27,7 +27,7 @@
             color: white;
             text-align: center;
             padding: 15px;
-            font-size: 14px;
+            font-size: 24px;
             z-index: 9999;
         }
 
@@ -48,6 +48,8 @@
         .cookie-banner button:hover {
             background-color: #45a049;
         }
+
+        
     </style>
 </head>
 
@@ -70,8 +72,8 @@
     <!-- Bandeau politique des cookies -->
     <div id="cookie-banner" class="cookie-banner" style="display: none;">
         <p>
-            Ce site utilise des cookies pour améliorer votre expérience. En poursuivant votre navigation, vous acceptez notre <a href="/politique-de-cookies.html">politique de cookies</a>.
-            <button id="accept-cookies">Accepter</button>
+            Ce site utilise des cookies pour améliorer votre expérience. En poursuivant votre navigation, vous acceptez notre <a href="./politique-de-cookies.html">politique de cookies</a>.
+            <button id="accept-cookies">Fermer</button>
         </p>
     </div>
 
@@ -81,27 +83,21 @@
         console.log(span)
         span.innerHTML = (window.innerWidth == 1000 ? " - " : "<br />") + span.innerHTML
 
-        // Vérifier si l'utilisateur a accepté les cookies
         function checkCookieConsent() {
             const cookieConsent = document.cookie.split('; ').find(row => row.startsWith('cookieConsent='));
             if (!cookieConsent) {
-                // Si l'utilisateur n'a pas accepté les cookies, afficher le bandeau
                 document.getElementById('cookie-banner').style.display = 'block';
             }
         }
 
-        // Gérer l'acceptation des cookies
         function acceptCookies() {
-            document.cookie = "cookieConsent=true; path=/; max-age=" + 60 * 60 * 24 * 365; // Cookie valable pendant 1 an
-            document.getElementById('cookie-banner').style.display = 'none'; // Cacher le bandeau
+            document.cookie = "cookieConsent=true; path=/; max-age=" + 60 * 60 * 24 * 365;
+            document.getElementById('cookie-banner').style.display = 'none'; 
         }
 
-        // Ajouter un événement sur le bouton pour accepter les cookies
         document.getElementById('accept-cookies').addEventListener('click', acceptCookies);
 
-        // Vérifier le consentement dès que la page est chargée
         window.onload = checkCookieConsent;
-
     </script>
 
     <script type="module" src="../controleur/accueil.js"></script>
