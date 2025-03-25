@@ -186,7 +186,7 @@ function register() {
             const jsonData = JSON.parse(data);  // Essayez de convertir en JSON
             console.log(jsonData);
             if (jsonData.status === 'success') {
-                // Suivant la logique, rediriger ou afficher un message de succès
+                window.location.href = "../vue/login.html";
             } else {
                 console.error("Erreur : " + jsonData.message);
             }
