@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 26, 2025 at 11:24 AM
+-- Generation Time: Mar 26, 2025 at 04:54 PM
 -- Server version: 5.7.36
 -- PHP Version: 7.4.26
 
@@ -300,62 +300,62 @@ CREATE TABLE IF NOT EXISTS `col_prod` (
 --
 
 INSERT INTO `col_prod` (`id_prod`, `id_col`, `prix_base_col`, `path_img`) VALUES
-(1, 2, 5, 'bonnet noel rouge.jpg'),
-(1, 16, 6, 'bonnetNoelDoré.jpg'),
-(2, 2, 4, 'BonnetMocheRouge.jpeg'),
-(2, 3, 4, 'bonnet moche vert.jpg'),
-(2, 8, 4, 'bonnetMocheMarron.jpg'),
-(2, 5, 4, 'bonnetMocheBlanc.webp'),
-(3, 2, 15, 'pull-moche-noel-renne.jpeg'),
-(4, 2, 30, 'pullLaineRouge.jpg'),
-(4, 3, 30, 'pullLaineVert.webp'),
-(4, 7, 30, 'pullLaineNoir.jpg'),
-(11, 15, 30, 'girlandeMulti.jpg'),
-(11, 2, 30, 'girlandeRouge.jpg'),
-(11, 5, 30, 'girlandeBlanc.jpg'),
-(13, 3, 60, 'sapinPlastiqueVert.jpg'),
-(13, 5, 60, 'sapinPlastiqueBlanc.jpg'),
-(14, 3, 70, 'sapinNaturelVert.jpg'),
-(14, 5, 70, 'sapinNaturelBlanc.jpg'),
-(12, 1, 7, 'bouleNoelJaune.jpg'),
-(12, 2, 7, 'bouleNoelRouge.jpg'),
-(12, 3, 7, 'bouleNoelVert.jpg'),
-(12, 5, 7, 'bouleNoelBlanc.jpg'),
-(12, 16, 8.4, 'bouleNoelDoré.jpg'),
-(12, 17, 8.05, 'bouleNoelArgent.jpg'),
-(5, 5, 10, 'gants ski blanc.webp'),
-(5, 6, 10, 'gantSkiGris.webp'),
-(5, 7, 10, 'gantSkiNoir.jpg'),
-(6, 4, 10, 'sousGantBleu.jpg'),
-(6, 5, 10, 'sousGantBlanc.jpg'),
-(6, 6, 10, 'sousGantGris.webp'),
-(6, 7, 10, 'sous gants noirs.jpg'),
-(6, 9, 10, 'sousGantViolet.webp'),
-(6, 14, 10, 'sousGantTurquoise.webp'),
-(6, 2, 10, 'sousGantRouge.webp'),
-(6, 3, 10, 'sousGantVert.webp'),
-(7, 2, 11, 'gants en laine rouge.jpg'),
-(7, 3, 11, 'gantLaineVert.jpg'),
-(7, 5, 11, 'gantLaineBlanc.webp'),
-(7, 6, 11, 'gantLaineGris.jpg'),
-(7, 7, 11, 'gantLaineNoir.jpg'),
-(7, 8, 11, 'gantLaineMarron.webp'),
-(8, 2, 13, 'chaussette de noel.jpg'),
-(8, 5, 13, 'chaussettePereNoelblanc.webp'),
-(8, 6, 13, 'chaussettePereNoelGris.jpg'),
-(9, 2, 17, 'chaussetteHauteRouge.jpg'),
-(9, 5, 17, 'chaussetteHauteBlanc.avif'),
-(9, 6, 17, 'chaussetteHauteGris.webp'),
-(9, 7, 17, 'chaussettes hautes noires.jpg'),
-(9, 13, 17, 'chaussetteHauteOrange.avif'),
-(10, 2, 10, 'chaussetteLaineRouge.webp'),
-(10, 5, 10, 'chaussetteLaineBlanc.jpg'),
-(10, 6, 10, 'chaussetteLaineGris.jpg'),
-(10, 7, 10, 'chaussetteLaineNoir.jpg'),
-(10, 10, 10, 'chaussetteLaineRose.webp'),
-(10, 12, 10, 'chaussettelaineMagenta.jpg'),
-(6, 11, 10, 'sousGantCyan.webp'),
 (6, 12, 10, 'sousGantMagenta.webp'),
+(6, 11, 10, 'sousGantCyan.webp'),
+(10, 7, 10, 'chaussetteLaineNoir.jpg'),
+(10, 5, 10, 'chaussetteLaineBlanc.jpg'),
+(9, 13, 17, 'chaussetteHauteOrange.avif'),
+(9, 7, 17, 'chaussettes hautes noires.jpg'),
+(9, 6, 17, 'chaussetteHauteGris.webp'),
+(8, 5, 13, 'chaussettePereNoelblanc.webp'),
+(8, 2, 13, 'chaussette de noel.jpg'),
+(7, 8, 11, 'gantLaineMarron.webp'),
+(7, 7, 11, 'gantLaineNoir.jpg'),
+(7, 6, 11, 'gantLaineGris.jpg'),
+(7, 2, 11, 'gants en laine rouge.jpg'),
+(6, 3, 10, 'sousGantVert.webp'),
+(6, 6, 10, 'sousGantGris.webp'),
+(6, 5, 10, 'sousGantBlanc.jpg'),
+(3, 2, 15, 'pull-moche-noel-renne.jpeg'),
+(2, 5, 4, 'bonnetMocheBlanc.webp'),
+(2, 3, 4, 'bonnet moche vert.jpg'),
+(2, 2, 4, 'BonnetMocheRouge.jpeg'),
+(1, 2, 5, 'bonnet noel rouge.jpg'),
+(10, 12, 10, 'chaussettelaineMagenta.jpg'),
+(10, 10, 10, 'chaussetteLaineRose.webp'),
+(10, 6, 10, 'chaussetteLaineGris.jpg'),
+(10, 2, 10, 'chaussetteLaineRouge.webp'),
+(1, 16, 6, 'bonnetNoelDoré.jpg'),
+(7, 3, 11, 'gantLaineVert.jpg'),
+(6, 4, 10, 'sousGantBleu.jpg'),
+(6, 2, 10, 'sousGantRouge.webp'),
+(6, 14, 10, 'sousGantTurquoise.webp'),
+(6, 9, 10, 'sousGantViolet.webp'),
+(6, 7, 10, 'sous gants noirs.jpg'),
+(2, 8, 4, 'bonnetMocheMarron.jpg'),
+(5, 7, 10, 'gantSkiNoir.jpg'),
+(5, 6, 10, 'gantSkiGris.webp'),
+(5, 5, 10, 'gants ski blanc.webp'),
+(12, 17, 8.05, 'bouleNoelArgent.jpg'),
+(12, 16, 8.4, 'bouleNoelDoré.jpg'),
+(12, 5, 7, 'bouleNoelBlanc.jpg'),
+(12, 3, 7, 'bouleNoelVert.jpg'),
+(12, 2, 7, 'bouleNoelRouge.jpg'),
+(12, 1, 7, 'bouleNoelJaune.jpg'),
+(14, 5, 70, 'sapinNaturelBlanc.jpg'),
+(14, 3, 70, 'sapinNaturelVert.jpg'),
+(13, 5, 60, 'sapinPlastiqueBlanc.jpg'),
+(13, 3, 60, 'sapinPlastiqueVert.jpg'),
+(11, 5, 30, 'girlandeBlanc.jpg'),
+(11, 2, 30, 'girlandeRouge.jpg'),
+(11, 15, 30, 'girlandeMulti.jpg'),
+(4, 7, 30, 'pullLaineNoir.jpg'),
+(4, 3, 30, 'pullLaineVert.webp'),
+(4, 2, 30, 'pullLaineRouge.jpg'),
+(7, 5, 11, 'gantLaineBlanc.webp'),
+(9, 5, 17, 'chaussetteHauteBlanc.avif'),
+(9, 2, 17, 'chaussetteHauteRouge.jpg'),
+(8, 6, 13, 'chaussettePereNoelGris.jpg'),
 (10, 15, 10, 'chaussettes laine multicolores.jpg'),
 (4, 6, 30, 'pull_laine_blanc.jpg'),
 (15, 2, 0, 'pere_noel.png');
@@ -387,30 +387,19 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `date_com` date NOT NULL,
   `id_us` int(11) NOT NULL,
   PRIMARY KEY (`id_com`)
-) ENGINE=MyISAM AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=78 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `commande`
 --
 
 INSERT INTO `commande` (`id_com`, `date_com`, `id_us`) VALUES
-(54, '2023-04-05', 11),
-(55, '2023-04-05', 11),
-(56, '2023-04-05', 11),
-(57, '2023-04-05', 11),
-(58, '2023-04-05', 11),
-(59, '2023-04-05', 11),
-(60, '2023-04-05', 11),
-(61, '2023-04-05', 7),
-(62, '2023-04-05', 7),
-(63, '2023-04-05', 7),
-(64, '2023-04-05', 16),
-(65, '2023-04-05', 18),
-(66, '2023-04-05', 18),
-(67, '2025-03-26', 21),
-(68, '2025-03-26', 21),
-(69, '2025-03-26', 21),
-(70, '2025-03-26', 21);
+(77, '2025-03-26', 21),
+(76, '2025-03-26', 21),
+(75, '2025-03-26', 21),
+(74, '2025-03-26', 21),
+(73, '2025-03-26', 21),
+(72, '2025-03-26', 21);
 
 --
 -- Triggers `commande`
@@ -498,73 +487,12 @@ CREATE TABLE IF NOT EXISTS `detail_com` (
 --
 
 INSERT INTO `detail_com` (`id_com`, `id_prod`, `id_col`, `id_tail`, `qte_com`, `prix_total`) VALUES
-(53, 8, 5, 12, 1, 15.6),
-(53, 15, 2, 17, 50, 0),
-(53, 3, 2, 4, 9, 162),
-(53, 2, 8, 17, 1, 4.8),
-(53, 12, 17, 3, 1, 9.6),
-(53, 6, 2, 3, 1, 13.2),
-(53, 1, 16, 17, 1, 7.2),
-(53, 1, 2, 17, 1, 6),
-(54, 8, 5, 12, 1, 15.6),
-(54, 15, 2, 17, 50, 0),
-(54, 3, 2, 4, 9, 162),
-(54, 2, 8, 17, 1, 4.8),
-(54, 12, 17, 3, 1, 9.6),
-(54, 6, 2, 3, 1, 13.2),
-(54, 1, 16, 17, 1, 7.2),
-(54, 1, 2, 17, 1, 6),
-(55, 8, 5, 12, 1, 15.6),
-(55, 15, 2, 17, 50, 0),
-(55, 3, 2, 4, 9, 162),
-(55, 2, 8, 17, 1, 4.8),
-(55, 12, 17, 3, 1, 9.6),
-(55, 6, 2, 3, 1, 13.2),
-(55, 1, 16, 17, 1, 7.2),
-(55, 1, 2, 17, 1, 6),
-(56, 8, 5, 12, 1, 15.6),
-(56, 15, 2, 17, 50, 0),
-(56, 3, 2, 4, 9, 162),
-(56, 2, 8, 17, 1, 4.8),
-(56, 12, 17, 3, 1, 9.6),
-(56, 6, 2, 3, 1, 13.2),
-(56, 1, 16, 17, 1, 7.2),
-(56, 1, 2, 17, 1, 6),
-(57, 8, 5, 12, 1, 15.6),
-(57, 15, 2, 17, 50, 0),
-(57, 3, 2, 4, 9, 162),
-(57, 2, 8, 17, 1, 4.8),
-(57, 12, 17, 3, 1, 9.6),
-(57, 6, 2, 3, 1, 13.2),
-(57, 1, 16, 17, 1, 7.2),
-(57, 1, 2, 17, 1, 6),
-(58, 10, 5, 12, 1, 12),
-(58, 12, 17, 3, 1, 9.6),
-(59, 8, 5, 12, 1, 15.6),
-(59, 10, 5, 12, 1, 12),
-(60, 10, 5, 12, 1, 12),
-(60, 12, 17, 3, 1, 9.6),
-(61, 1, 16, 17, 1, 7.2),
-(61, 8, 5, 12, 1, 15.6),
-(61, 12, 17, 3, 19, 182.4),
-(62, 2, 5, 17, 1, 4.8),
-(62, 14, 3, 7, 3, 324),
-(63, 8, 2, 12, 1, 15.6),
-(63, 10, 2, 12, 1, 12),
-(64, 12, 1, 3, 5, 48),
-(65, 9, 13, 15, 4, 86.4),
-(66, 5, 7, 1, 1, 12),
-(66, 12, 16, 1, 1, 8.4),
-(67, 2, 2, 17, 1, 4.8),
-(67, 5, 5, 1, 1, 12),
-(68, 3, 2, 1, 1, 18),
-(68, 5, 5, 1, 1, 12),
-(69, 2, 2, 17, 1, 4.8),
-(69, 6, 2, 1, 1, 12),
-(70, 1, 2, 17, 1, 12),
-(70, 3, 2, 1, 1, 36),
-(70, 4, 2, 1, 1, 72),
-(70, 5, 5, 1, 1, 24);
+(77, 7, 2, 1, 2, 52.8),
+(76, 1, 2, 17, 1, 12),
+(75, 9, 2, 12, 1, 40.8),
+(74, 9, 2, 12, 1, 40.8),
+(73, 5, 5, 1, 1, 24),
+(73, 4, 2, 1, 1, 72);
 
 --
 -- Triggers `detail_com`
@@ -675,28 +603,7 @@ CREATE TABLE IF NOT EXISTS `panier` (
   `id_tail` int(11) NOT NULL,
   `qte_pan` int(11) NOT NULL,
   PRIMARY KEY (`id_us`,`id_prod`,`id_col`,`id_tail`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `panier`
---
-
-INSERT INTO `panier` (`id_us`, `id_prod`, `id_col`, `id_tail`, `qte_pan`) VALUES
-(11, 9, 13, 12, 2),
-(16, 2, 2, 17, 1),
-(16, 9, 2, 12, 1),
-(11, 1, 16, 17, 3),
-(7, 1, 16, 17, 3),
-(16, 10, 2, 12, 1),
-(7, 10, 2, 12, 1),
-(18, 12, 1, 3, 1),
-(11, 12, 17, 3, 10),
-(11, 8, 2, 12, 11),
-(11, 15, 2, 11, 10),
-(16, 1, 16, 17, 1),
-(16, 11, 2, 11, 1),
-(7, 11, 2, 9, 1),
-(7, 15, 2, 11, 14);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Triggers `panier`
@@ -885,6 +792,8 @@ CREATE TABLE IF NOT EXISTS `select_produits` (
 `id_prod` int(11)
 ,`nom_prod` varchar(50)
 ,`description` varchar(700)
+,`SKU` varchar(50)
+,`prix_base` float
 ,`id_cat` int(11)
 ,`nom_cat` varchar(30)
 ,`id_col` int(11)
@@ -1154,7 +1063,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `select_produits`;
 
 DROP VIEW IF EXISTS `select_produits`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `select_produits`  AS SELECT `p`.`id_prod` AS `id_prod`, `p`.`nom_prod` AS `nom_prod`, `p`.`description` AS `description`, `ca`.`id_cat` AS `id_cat`, `ca`.`nom_cat` AS `nom_cat`, `co`.`id_col` AS `id_col`, `co`.`nom_col` AS `nom_col`, `t`.`id_tail` AS `id_tail`, `t`.`nom_tail` AS `nom_tail`, `cp`.`path_img` AS `path_img`, round(((coalesce(`cp`.`prix_base_col`,`p`.`prix_base`) + coalesce(`tp`.`prix_base_tail`,0)) * 1.2),2) AS `prix_unit` FROM (((((`produit` `p` left join `col_prod` `cp` on((`cp`.`id_prod` = `p`.`id_prod`))) left join `tail_prod` `tp` on((`tp`.`id_prod` = `p`.`id_prod`))) join `categorie` `ca` on((`ca`.`id_cat` = `p`.`id_cat`))) left join `couleur` `co` on((`co`.`id_col` = `cp`.`id_col`))) left join `taille` `t` on((`t`.`id_tail` = `tp`.`id_tail`))) ORDER BY `p`.`nom_prod` ASC, `ca`.`nom_cat` ASC, `co`.`nom_col` ASC, `t`.`nom_tail` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `select_produits`  AS SELECT `p`.`id_prod` AS `id_prod`, `p`.`nom_prod` AS `nom_prod`, `p`.`description` AS `description`, `p`.`SKU` AS `SKU`, `p`.`prix_base` AS `prix_base`, `p`.`id_cat` AS `id_cat`, `ca`.`nom_cat` AS `nom_cat`, `cp`.`id_col` AS `id_col`, `co`.`nom_col` AS `nom_col`, `tp`.`id_tail` AS `id_tail`, `t`.`nom_tail` AS `nom_tail`, `cp`.`path_img` AS `path_img`, round(((coalesce(`cp`.`prix_base_col`,`p`.`prix_base`) + coalesce(`tp`.`prix_base_tail`,0)) * 1.2),2) AS `prix_unit` FROM (((((`produit` `p` left join `col_prod` `cp` on((`cp`.`id_prod` = `p`.`id_prod`))) left join `tail_prod` `tp` on((`tp`.`id_prod` = `p`.`id_prod`))) join `categorie` `ca` on((`ca`.`id_cat` = `p`.`id_cat`))) left join `couleur` `co` on((`co`.`id_col` = `cp`.`id_col`))) left join `taille` `t` on((`t`.`id_tail` = `tp`.`id_tail`))) ORDER BY `p`.`nom_prod` ASC, `ca`.`nom_cat` ASC, `co`.`nom_col` ASC, `t`.`nom_tail` ASC ;
 
 -- --------------------------------------------------------
 
