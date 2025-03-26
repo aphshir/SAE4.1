@@ -1,7 +1,10 @@
 <?php declare(strict_types=1);
 
+require_once "./verifier_cookie.php";
 require_once "../bdd/connexion.php";
 require_once 'header.php';
+
+$user = verifier_utilsateur();
 
 $json = [];
 
@@ -14,11 +17,10 @@ AND id_tail = :id_tail";
 
 $res = $db->prepare($query);
 
-$res->bindParam(":id_us", $_POST["id_us"]);
+$res->bindParam(":id_us", $user["id_us"]);
 $res->bindParam(":id_prod", $_POST["id_prod"]);
 $res->bindParam(":id_col", $_POST["id_col"]);
 $res->bindParam(":id_tail", $_POST["id_tail"]);
-
 
 try {
     $res->execute();

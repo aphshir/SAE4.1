@@ -10,12 +10,7 @@ if (!isConnected()) {
 }
 async function affInfos() {     //requete API pour récupérer les infos de l'utilisateur
     const reponse = await fetch(
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getCommandes.php", {
-            method: "POST",
-            body: new URLSearchParams({
-                id_us: cookieValue, //Remplacer par 3 pour tester
-            }),
-        }
+        "../../serveur/api/getCommandes.php", { method: "POST" }
     );
 
     const recupDonnees = await reponse.json();

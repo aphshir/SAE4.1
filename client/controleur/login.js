@@ -13,10 +13,12 @@ msgErreur.style.textAlign = "center";
 msgErreur.style.justifyContent = "center";
 
 async function authentifier() {
-    var login = $("#login").val();
-    var motdepasse = $("#motdepasse").val();
+    // Get all the user input value
+    const login = document.querySelector("#login").value;
+    const password = document.querySelector("#motdepasse").value;
 
-    if (!login || !motdepasse) {
+    // Check if value is empty
+    if (!login || !password) {
         msgErreur.innerHTML = "Remplissez tous les champs !";
         msgErreur.style.display = "block";
         setTimeout(() => {
@@ -25,12 +27,14 @@ async function authentifier() {
 
         return;
     }
+
+    // Send the data to the server
     const reponse = await fetch(
         "../../serveur/api/connexion.php", {
             method: "POST",
             body: new URLSearchParams({
                 login: login,
-                mdp: motdepasse,
+                mdp: password,
             }),
         }
     );
@@ -44,11 +48,6 @@ async function authentifier() {
         let date_expiration = new Date();
         date_expiration.setTime(date_expiration.getTime() + (1 * 60 * 60 * 1000));
 
-        // console.log("User :",data.id_us);
-
-        document.cookie = "id_user=" + data.id_us + ";expires=" + date_expiration.toUTCString() + ";path=/";
-
-        // console.log("Cookie : ", document.cookie);
         window.location.href = "accueil.html";
         return;
     }

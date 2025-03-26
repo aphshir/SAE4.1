@@ -46,9 +46,8 @@ barreRecherche.style.borderRadius = "5px";
 
 async function getInfoProd() {
     return await fetch(
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getGenericProduits.php", {
+        "../../serveur/api/getGenericProduits.php", {
             method: "POST",
-            body: new URLSearchParams({}),
         }
     ).then((reponse) => reponse.json());
 }
@@ -86,21 +85,21 @@ async function fillMaps() {
 
 fetchSpecification(
     selectCategorie,
-    "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getCategories.php",
+    "../../serveur/api/getCategories.php",
     "Catégorie",
     "idCategorie"
 );
 
 fetchSpecification(
     selectCouleur,
-    "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getCouleurs.php",
+    "../../serveur/api/getCouleurs.php",
     "Couleur",
     "idCouleur"
 );
 
 fetchSpecification(
     selectTaille,
-    "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getTailles.php",
+    "../../serveur/api/getTailles.php",
     "Taille",
     "idTaille"
 );
@@ -178,7 +177,7 @@ function traiterChaine(barreRecherche) {
 
 selectCategorie.addEventListener("change", (e) => {
     e.preventDefault();
-    fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getProduits.php")
+    fetch("../../serveur/api/getProduits.php")
         .then((reponse) => reponse.json().then((data) => {
             const prod_cat = data.data.filter((produit) => produit.id_cat == selectCategorie.value);
             let couleur = []
@@ -189,12 +188,12 @@ selectCategorie.addEventListener("change", (e) => {
             });            
             couleur = couleur.filter((v, i, a) => a.indexOf(v) === i);
             taille = taille.filter((v, i, a) => a.indexOf(v) === i);
-            fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getCouleurs.php").then((reponse) => reponse.json().then((data) => {
+            fetch("../../serveur/api/getCouleurs.php").then((reponse) => reponse.json().then((data) => {
                 const nom_couleur = data.data.filter((couleu) => couleur.includes(couleu.id_col));
                 selectCouleur.innerHTML = "";
                 ajouterOptions(selectCouleur, nom_couleur, "Couleur", "idCouleur");
             }))
-            fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getTailles.php").then((reponse) => reponse.json().then((data) => {
+            fetch("../../serveur/api/getTailles.php").then((reponse) => reponse.json().then((data) => {
                 const nom_tail = data.data.filter((taill) => taille.includes(taill.id_tail));
                 selectTaille.innerHTML = "";
                 ajouterOptions(selectTaille, nom_tail, "Taille", "idTaille");

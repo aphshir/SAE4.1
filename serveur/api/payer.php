@@ -1,7 +1,10 @@
 <?php declare(strict_types=1);
 
+require_once "./verifier_cookie.php";
 require_once "../bdd/connexion.php";
 require_once 'header.php';
+
+$user = verifier_utilsateur();
 
 $query =
 "SELECT * FROM PANIER
@@ -9,7 +12,7 @@ WHERE id_us = :id_us";
 
 $res = $db->prepare($query);
 
-$res->bindParam(":id_us", $_POST["id_us"]);
+$res->bindParam(":id_us", $user["id_us"]);
 try{
     $res->execute();
     $panier = $res->fetchAll(PDO::FETCH_ASSOC);
@@ -20,7 +23,7 @@ try{
     (NULL, NOW(), :id_us);
     ";
     $res = $db->prepare($query);
-    $res->bindParam(":id_us", $_POST["id_us"]);
+    $res->bindParam(":id_us", $user["id_us"]);
     $res->execute();
     $query ="
     SELECT MAX(id_com) as id_com

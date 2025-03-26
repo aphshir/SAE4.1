@@ -78,15 +78,15 @@ export class ProduitGenerique extends HTMLElement {
 
 customElements.define("produit-generique", ProduitGenerique);
 
-function afficherTousLesProduits() {
+async function afficherTousLesProduits() {
     const urlParams = new URLSearchParams(window.location.search);
     const taille = urlParams.get("taille");
     const couleur = urlParams.get("idCouleur");
 
     const produitGenerique =
-    "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getGenericProduits.php";
+    "../../serveur/api/getGenericProduits.php";
     const produitComplet =
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getProduits.php";
+        "../../serveur/api/getProduits.php";
     const url = taille || couleur ? produitComplet : produitGenerique;
 
     return fetch(url)
@@ -152,7 +152,7 @@ function produitsTaille(idTaille, data) {
 export function imprimerUnProduit(produit) {
 
     let path = produit["path_img"] ?
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/img/articles/" + produit["path_img"] :
+        "../../serveur/img/articles/" + produit["path_img"] :
         "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
     // console.log(produit)
     let produitElement = document.createElement("produit-generique");
@@ -204,7 +204,19 @@ function imprimerTousLesProduits(produits) {
         produits = produitsCouleur(couleur, produits);
     }
 
+    const produitUniques = {};
+    produits.forEach((produit) => {
+        if (!produitUniques[produit.id_prod] ||
+            (couleur && produit.id_col == couleur)
+        ) {
+            produitUniques[produit.id_prod] = produit;
+        }
+    });
+
+    const produitsAfficher = Object.values(produitUniques);
+
     const listeProd = document.querySelector(".produits");
+    listeProd.innerHTML = "";
     // console.log(produits);
 
     // produits.forEach((produit) => {
@@ -222,7 +234,7 @@ function imprimerTousLesProduits(produits) {
     //     listeProd.appendChild(produitElement);
     // });
 
-    produits.forEach((produit) => {
+    produitsAfficher.forEach((produit) => {
         const produitElement = imprimerUnProduit(produit);
         document.querySelector(".produits").appendChild(produitElement);
     });
@@ -231,7 +243,7 @@ function imprimerTousLesProduits(produits) {
 
 async function getFavori(id_us) {
     return await fetch(
-            "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getFavori.php", {
+            "../../serveur/api/getFavori.php", {
                 method: "POST",
                 body: new URLSearchParams({
                     id_us: id_us,
@@ -244,7 +256,7 @@ async function getFavori(id_us) {
 
 function ajouterFavori(event, id_us) {
     fetch(
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/newFavori.php", {
+        "../../serveur/api/newFavori.php", {
             method: "POST",
             body: new URLSearchParams({
                 id_us: id_us,
@@ -256,7 +268,7 @@ function ajouterFavori(event, id_us) {
 
 function supprimerFavori(event, id_us) {
     fetch(
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/delFavori.php", {
+        "../../serveur/api/delFavori.php", {
             method: "POST",
             body: new URLSearchParams({
                 id_us: id_us,
@@ -282,15 +294,15 @@ function traiterFavori(id_us) {
                 //console.log(checkbox.id.substring(1));
                 if (id_fav.includes(parseInt(checkbox.id.substring(2)))) {
                     checkbox.checked = true;
-                    img.src = "../img/icones/star_plein.png";
+                    img.src = "img/icones/star_plein.png";
                 };
                 checkbox.addEventListener("click", (event) => {
                     if (event.target.checked === true) {
                         ajouterFavori(event, id_us);
-                        img.src = "../img/icones/star_plein.png";
+                        img.src = "img/icones/star_plein.png";
                     } else {
                         supprimerFavori(event, id_us);
-                        img.src = "../img/icones/star_vide.png";
+                        img.src = "img/icones/star_vide.png";
                     }
                 });
                 document

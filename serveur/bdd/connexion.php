@@ -19,4 +19,6 @@ try {
 
     die($exception->getMessage());
 }
+
+return $db;
 ?>

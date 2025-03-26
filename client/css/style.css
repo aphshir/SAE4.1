@@ -157,6 +157,20 @@ input,
     border-radius: 4px;
 }
 
+a.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a.login > img {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    margin-right: .2rem;
+}
+
 p {
     margin: 0;
     padding: 0;

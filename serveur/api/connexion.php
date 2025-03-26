@@ -26,18 +26,41 @@ try {
     if ($user && password_verify($_POST['mdp'], $user['mdp'])) {
         // Génération d'un token HMAC pour éviter la modification du cookie
         $id_user = $user['id_us'];
-        $signature = hash_hmac('sha256', $id_user, SECRET_KEY); // Créer une signature
+        $issueAtt = time();
+        $expirationTime = $issueAtt + 10800; // Expire dans 3 heures
 
-        setcookie("id_us", "$id_user:$signature", [
-            'expires' => time() + 10800,  // Expire dans 3 heures
-            'path' => "/",
-            'httponly' => true, // Empêche l'accès au cookie via JavaScript
-            'secure' => true, // Utiliser uniquement en HTTPS
-            'samesite' => 'Strict' // Protection CSRF
+        $header = [
+            'alg' => 'HS256',
+            'typ' => 'JWT'
+        ];
+
+        $payload = [
+            'iss' => 'SAE4.1',
+            'sub' => $id_user,
+            'iat' => $issueAtt,
+            'exp' => $expirationTime
+        ];
+
+        $base64UrlHeader = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(json_encode($header)));
+        $base64UrlPayload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode(json_encode($payload)));
+
+        $signature = hash_hmac('sha256', $base64UrlHeader. "." . $base64UrlPayload, SECRET_KEY);
+        $base54UrlSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+
+        $jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $signature;
+
+        setcookie("jwt", $jwt, [
+            'expires' => $expirationTime,
+            'path' => '/',
+            'domain' => 'localhost',
+            'secure' => false,
+            'httponly' => false,
+            'samesite' => 'Strict'
         ]);
 
         $json["status"] = "success";
         $json["message"] = "Connexion réussie";
+        $json["jwt"] = $jwt;
     } else {
         $json["status"] = "failed";
         $json["message"] = "Identifiants incorrects";

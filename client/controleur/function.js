@@ -1,7 +1,4 @@
-export const cookieValue = document.cookie //Correspond à la valeur de la clé "id_user" dans le cookie
-    .split("; ")
-    .find((row) => row.startsWith("id_user="))
-    ?.split("=")[1];
+export const cookieValue = document.cookie.split("; ").find((row) => row.startsWith("jwt="))?.split("=")[1];	
 
 export function isConnected() {
     return cookieValue !== undefined;
@@ -20,14 +17,26 @@ function printHeader() {
     if (connected) {
         navLinks += `
         <a href='./historique.html'>Historique</a>
-      <a href='./favori.html'>Favoris</a>
-      <a href='./compte.html'>Compte</a>
-      <a href='./logout.html'>Déconnexion</a>
+        <a href='./favori.html'>Favoris</a>
+        <a href='./compte.php' class='login'>
+            <img src='./img/icones/user.svg' alt="user icon" />
+            Compte
+        </a>
+        <a href='./logout.html' class='login'> 
+            <img src='./img/icones/user-round-x.svg' alt="user icon" />
+            Déconnexion
+        </a>
     `;
     } else {
         navLinks += `
-      <a href='./login.html'>Connexion</a>
-      <a href='./register.html'>Inscription</a>
+      <a href='./login.html' class='login'>
+        <img src='./img/icones/user.svg' alt="user icon" />
+        Connexion
+      </a>
+      <a href='./register.html' class='login'> 
+        <img src='./img/icones/users.svg' alt="user icon" />
+        Inscription   
+      </a>
     `;
     }
 
