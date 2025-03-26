@@ -67,37 +67,53 @@ function delButton(id) {
 }
 
 function modifButton(id) {
+    const button = findId(id, document.querySelectorAll(".mod"));
 
-    const test = findId(id, document.querySelectorAll(".mod"))
-
-    test.addEventListener("click", (e) => {
+    button.addEventListener("click", (e) => {
+        // Récupérer l'id du produit, de la couleur et de la taille à partir de l'ID du bouton
         const id_prod = e.target.id.split("|")[0];
         const id_col = e.target.id.split("|")[1];
         const id_tail = e.target.id.split("|")[2];
+
+        // Récupérer la quantité actuelle depuis l'input
         const qte_pan = document.getElementById(id).value;
-        let new_id_col = null
-        let new_id_tail = null
-        document.getElementById(`couleur${id}`).querySelectorAll("option").forEach((element) => {
+        
+        // Vérification que la quantité est valide
+        if (isNaN(qte_pan) || qte_pan <= 0) {
+            alert("Veuillez entrer une quantité valide !");
+            return;
+        }
+
+        let new_id_col = null;
+        let new_id_tail = null;
+
+        // Récupérer la couleur sélectionnée
+        const colorSelect = document.getElementById(`couleur${id}`);
+        colorSelect.querySelectorAll("option").forEach((element) => {
             if (element.selected) {
                 new_id_col = element.id;
             }
         });
+
+        // Récupérer la taille sélectionnée (si elle existe)
         if (document.getElementById(`taille${id}`) === null) {
-            new_id_tail = 17
+            new_id_tail = 17; // valeur par défaut si pas de taille
         } else {
-            document.getElementById(`taille${id}`).querySelectorAll("option").forEach((element) => {
+            const sizeSelect = document.getElementById(`taille${id}`);
+            sizeSelect.querySelectorAll("option").forEach((element) => {
                 if (element.selected) {
                     new_id_tail = element.id;
                 }
             });
         }
-        // console.log("id_us",id_us);
-        // console.log("id_prod",id_prod);
-        // console.log("id_col",id_col);
-        // console.log("id_tail",id_tail);
-        // console.log("qte_pan",qte_pan);
-        // console.log("new_id_col",new_id_col);
-        // console.log("new_id_tail",new_id_tail);
+
+        console.log(`Modifier le panier avec :
+        Produit ID: ${id_prod},
+        Couleur ID: ${new_id_col},
+        Taille ID: ${new_id_tail},
+        Quantité : ${qte_pan}`);
+
+        // Envoi des nouvelles données au serveur pour mise à jour du panier
         fetch("../../serveur/api/setPanier.php", {
             method: "POST",
             body: new URLSearchParams({
@@ -111,20 +127,21 @@ function modifButton(id) {
             }),
         }).then((response) => {
             response.json().then((json) => {
-                //console.log(json);
                 if (json.status !== "success") {
-                    alert("modif échouée");
-                    appelPanier();
+                    alert("Modification échouée");
+                    appelPanier();  // Recharger le panier pour synchroniser l'affichage
                     return;
                 }
 
-                console.log("modif réussie");
-                document.getElementById("panier").innerHTML = "";
-                appelPanier();
+                console.log("Modification réussie");
+                appelPanier();  // Recharger le panier après la modification réussie
             });
+        }).catch((error) => {
+            console.log("Erreur lors de la modification du panier", error);
         });
     });
 }
+
 
 function rempliSelect(select, array, arrayId, def) {
     array = array.filter((value, index) => array.indexOf(value) === index);
@@ -194,6 +211,7 @@ function affichePanier(panier, qte, taille, couleur, couleurId, tailleId) {
 async function appelPanier() {
     document.getElementById("panier").innerHTML = "";
     document.getElementById("prixTotal").innerHTML = 0;
+
     getPanier(id_us).then((panier) => {
         if (panier.data.length !== 0) {
             document.getElementById("footer").style.display = "block";
@@ -207,8 +225,9 @@ async function appelPanier() {
             document.getElementById("panier").appendChild(section);
             document.getElementById("panier").id = "accueil";
         }
-        panier.data.forEach((produit) => {
 
+        let total = 0;
+        panier.data.forEach((produit) => {
             getProduit(produit.id_prod).then((response) => {
                 let couleur = [];
                 let couleurId = [];
@@ -216,9 +235,7 @@ async function appelPanier() {
                 let tailleId = [];
 
                 response.json().then((BDDproduits) => {
-
                     BDDproduits.data.forEach((BDDproduit) => {
-
                         if (BDDproduit.id_prod == produit.id_prod) {
                             couleur.push(BDDproduit.nom_col);
                             taille.push(BDDproduit.nom_tail);
@@ -226,15 +243,18 @@ async function appelPanier() {
                             tailleId.push(BDDproduit.id_tail);
                         }
                     });
+
                     BDDproduits.data.forEach((BDDproduit) => {
                         if (BDDproduit.id_col == produit.id_col && BDDproduit.id_tail == produit.id_tail) {
                             affichePanier(BDDproduit, produit.qte_pan, taille, couleur, couleurId, tailleId);
+                            total += Math.round(BDDproduit.prix_unit * produit.qte_pan * 100) / 100;
                         }
                     });
+                    document.getElementById("prixTotal").innerHTML = total;
                 });
             });
         });
-    })
+    });
 }
 
 document.getElementById("payer").addEventListener("click", async () => {
