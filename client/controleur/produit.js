@@ -84,6 +84,7 @@ class ProduitDetail extends HTMLElement {
     </style>
     <div class="produitDetail">
         <center><h1>${this.getAttribute("name")}</h1></center>
+        <span class="sku">Référence : ${this.getAttribute("sku")}</span>
         <span class="main_info_prod">
             <center><img class="img_prod" alt="../img/Placeholder.png" src="${this.getAttribute("path_img")}"></center>
             <center><p class="desc_prod">${this.getAttribute("description")}</p></center>
@@ -237,11 +238,10 @@ function imprimerSelectionTaille(produits) {
 }
 
 function imprimerProduit(produit) {
-
     let path = produit.path_img ?
         "../../serveur/img/articles/" + produit.path_img :
         "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
-    console.info("PRODUIT: ", produit);
+    
     const prod_affiche = document.createElement("produit-detail");
     prod_affiche.setAttribute("name", produit.nom_prod);
     prod_affiche.setAttribute("description", produit.description);
@@ -251,6 +251,7 @@ function imprimerProduit(produit) {
     prod_affiche.setAttribute("favori", !!produit.est_favori);
     prod_affiche.setAttribute("id", produit.id_prod);
     prod_affiche.setAttribute("path_img", path);
+    prod_affiche.setAttribute("sku", produit.SKU || "N/A");
     prod_affiche.setAttribute("id", "produit");
     document.querySelector("#detail").appendChild(prod_affiche);
 }

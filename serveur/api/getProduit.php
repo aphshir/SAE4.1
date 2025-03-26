@@ -11,7 +11,7 @@ $json = [];
 if ($user) {
     $query = "
     SELECT p.*, 
-           CASE WHEN f.id_us IS NOT NULL THEN 1 ELSE 0 END AS est_favori
+           CASE WHEN f.id_us IS NOT NULL THEN 1 ELSE 0 END AS est_favori, p.SKU
     FROM SELECT_PRODUITS p
     LEFT JOIN favori f ON p.id_prod = f.id_prod AND f.id_us = :id_us
     WHERE p.id_prod = :id_prod";
