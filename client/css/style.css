@@ -181,8 +181,7 @@ select {
 }
 
 table {
-    background-color: #5f8755;
-    box-shadow: 5px 5px green;
+
     border-radius: 4px;
     padding: 30px;
 }

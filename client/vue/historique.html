@@ -2,19 +2,103 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historique - PM2</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        h1 {
+            color: #333;
+            background: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 24px;
+            margin-top: 80px;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 80px;
+        }
+        table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+                background-color: #f9f9f9; /* Fond gris clair */
+                border-radius: 8px; /* Coins arrondis pour un effet moderne */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère pour donner de la profondeur */
+            }
+
+            th, td {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+                text-align: center;
+                background: none;
+            }
+
+            th {
+                background-color: #007BFF;
+                color: white;
+            }
+
+            tr:nth-child(even) {
+                background-color: transparent; 
+            }
+
+            tr:hover {
+                background-color: transparent; 
+            }
+        .btn-details {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn-details:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #666;
+        }
+
+
+    </style>
 </head>
 
-<body class="accueil">
+<body>
     <header id="printHeader"></header>
-
-    <h1>Historique de vos commandes</h1>
-
-    <center>
+    
+    <div class="container">
+        <h1>Historique de vos commandes</h1>
         <table id="commande">
             <thead>
                 <tr>
@@ -23,14 +107,15 @@
                     <th>Détails</th>
                 </tr>
             </thead>
+            <tbody></tbody>
         </table>
-        <span id="commandeVide"></span>
-    </center>
-
+        <div id="commandeVide" class="message"></div>
+    </div>
+    
     <footer id="printFooter"></footer>
+    
+    <script type="module" src="../controleur/historique.js"></script>
+    <script type="module" src="../controleur/function.js"></script>
 </body>
-
-<script type="module" src="../controleur/historique.js" type="module"></script>
-<script type="module" src="../controleur/function.js" type="module"></script>
 
 </html>
