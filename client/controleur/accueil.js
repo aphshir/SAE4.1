@@ -1,4 +1,5 @@
 import { cookieValue } from "./function.js";
+
 export class ProduitGenerique extends HTMLElement {
     constructor() {
         super();
@@ -24,7 +25,6 @@ export class ProduitGenerique extends HTMLElement {
             border-radius: 4px;
         }
         .etoile{
-            /*margin: 3%;*/
             width: 20px;
             height: 20px;
         }
@@ -52,8 +52,6 @@ export class ProduitGenerique extends HTMLElement {
         .prix {
             height: 20px;
             margin: 0;
-            /*rigth: -50%;
-            position: relative;*/
         }
         .flex {
             display: flex;
@@ -78,23 +76,51 @@ export class ProduitGenerique extends HTMLElement {
 
 customElements.define("produit-generique", ProduitGenerique);
 
-async function afficherTousLesProduits() {
+let currentPage = 1;
+let isLoading = false;
+
+async function afficherTousLesProduits(page = 1) {
+    if (isLoading) return;
+    isLoading = true;
+    
     const urlParams = new URLSearchParams(window.location.search);
     const taille = urlParams.get("taille");
     const couleur = urlParams.get("idCouleur");
+    
+    const produitGenerique = "../../serveur/api/getGenericProduits.php";
+    const produitComplet = "../../serveur/api/getProduits.php";
+    let url = taille || couleur ? produitComplet : produitGenerique;
+    
+    url += `?page=${page}`;
+    
+    // Ajouter les autres paramètres existants
+    if (urlParams.has('search')) url += `&search=${urlParams.get('search')}`;
+    if (urlParams.has('idCategorie')) url += `&idCategorie=${urlParams.get('idCategorie')}`;
+    if (urlParams.has('idTaille')) url += `&idTaille=${urlParams.get('idTaille')}`;
+    if (urlParams.has('idCouleur')) url += `&idCouleur=${urlParams.get('idCouleur')}`;
 
-    const produitGenerique =
-    "../../serveur/api/getGenericProduits.php";
-    const produitComplet =
-        "../../serveur/api/getProduits.php";
-    const url = taille || couleur ? produitComplet : produitGenerique;
-
-    return fetch(url)
-        .then((reponse) => reponse.json())
-        .then((data) => {
-            imprimerTousLesProduits(data.data);
-        })
-        .catch((error) => console.log(error));
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (page === 1) {
+            // Si c'est la première page, on vide la liste
+            document.querySelector(".produits").innerHTML = "";
+        }
+        
+        imprimerTousLesProduits(data.data);
+        currentPage = page;
+        
+        // Vérifier s'il y a plus de produits à charger
+        const loadMoreBtn = document.getElementById('load-more');
+        if (loadMoreBtn) {
+            loadMoreBtn.style.display = data.data.length === 10 ? 'block' : 'none';
+        }
+    } catch (error) {
+        console.error("Erreur lors du chargement des produits:", error);
+    } finally {
+        isLoading = false;
+    }
 }
 
 function produitsRecherche(recherche, data) {
@@ -148,13 +174,11 @@ function produitsTaille(idTaille, data) {
     return dejaSortit;
 }
 
-
 export function imprimerUnProduit(produit) {
-
     let path = produit["path_img"] ?
         "../../serveur/img/articles/" + produit["path_img"] :
         "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
-    // console.log(produit)
+    
     let produitElement = document.createElement("produit-generique");
     produitElement.classList.add("col-xs-12");
     produitElement.classList.add("col-sm-6");
@@ -167,7 +191,7 @@ export function imprimerUnProduit(produit) {
     produitElement.setAttribute("id", produit["id_prod"]);
     produitElement.setAttribute("id_col", produit["id_col"]);
     produitElement.setAttribute("path_img", path);
-    // console.log(path);
+    
     return produitElement;
 }
 
@@ -191,6 +215,7 @@ function imprimerTousLesProduits(produits) {
     const taille = urlParams.get("idTaille");
     const couleur = urlParams.get("idCouleur");
     const id_us = cookieValue;
+    
     if (recherche) {
         produits = produitsRecherche(recherche, produits);
     }
@@ -214,44 +239,31 @@ function imprimerTousLesProduits(produits) {
     });
 
     const produitsAfficher = Object.values(produitUniques);
-
     const listeProd = document.querySelector(".produits");
-    listeProd.innerHTML = "";
-    // console.log(produits);
-
-    // produits.forEach((produit) => {
-    //     // console.log(produit);
-    //     let produitElement = document.createElement("produit-generique");
-    //     produitElement.classList.add("col-md-4");
-    //     produitElement.classList.add("col-lg-3");
-    //     produitElement.classList.add("col-sm-6");
-    //     produitElement.classList.add("descProduit");
-    //     produitElement.setAttribute("name", produit["nom_prod"]);
-    //     produitElement.setAttribute("prix", produit["prix_unit"]);
-    //     produitElement.setAttribute("id", produit["id_prod"]);
-
-
-    //     listeProd.appendChild(produitElement);
-    // });
 
     produitsAfficher.forEach((produit) => {
         const produitElement = imprimerUnProduit(produit);
-        document.querySelector(".produits").appendChild(produitElement);
+        listeProd.appendChild(produitElement);
     });
+    
     traiterFavori(id_us);
 }
 
 async function getFavori(id_us) {
-    return await fetch(
+    try {
+        const response = await fetch(
             "../../serveur/api/getFavori.php", {
                 method: "POST",
                 body: new URLSearchParams({
                     id_us: id_us,
                 }),
             }
-        )
-        .then((response) => response.json().then((data) => data.data))
-        .catch((error) => console.log(error));
+        );
+        return await response.json().then((data) => data.data);
+    } catch (error) {
+        console.error("Erreur lors de la récupération des favoris:", error);
+        return [];
+    }
 }
 
 function ajouterFavori(event, id_us) {
@@ -263,7 +275,7 @@ function ajouterFavori(event, id_us) {
                 id_prod: event.target.id.substring(2),
             }),
         }
-    ).catch((error) => console.log(error));
+    ).catch((error) => console.error("Erreur lors de l'ajout aux favoris:", error));
 }
 
 function supprimerFavori(event, id_us) {
@@ -275,7 +287,7 @@ function supprimerFavori(event, id_us) {
                 id_prod: event.target.id.substring(2),
             }),
         }
-    ).catch((error) => console.log(error));
+    ).catch((error) => console.error("Erreur lors de la suppression des favoris:", error));
 }
 
 function traiterFavori(id_us) {
@@ -284,43 +296,56 @@ function traiterFavori(id_us) {
         data.forEach((fav) => {
             id_fav.push(fav["id_prod"]);
         });
-        //console.log(id_fav);
-        document
-            .querySelector(".produits")
-            .querySelectorAll("produit-generique")
-            .forEach((produit) => {
-                const checkbox = produit.shadowRoot.querySelector(".checkbox");
-                const img = produit.shadowRoot.querySelector("label").querySelector("img");
-                //console.log(checkbox.id.substring(1));
-                if (id_fav.includes(parseInt(checkbox.id.substring(2)))) {
-                    checkbox.checked = true;
+        
+        document.querySelector(".produits").querySelectorAll("produit-generique").forEach((produit) => {
+            const checkbox = produit.shadowRoot.querySelector(".checkbox");
+            const img = produit.shadowRoot.querySelector("label").querySelector("img");
+            
+            if (id_fav.includes(parseInt(checkbox.id.substring(2)))) {
+                checkbox.checked = true;
+                img.src = "img/icones/star_plein.png";
+            };
+            
+            checkbox.addEventListener("click", (event) => {
+                if (event.target.checked === true) {
+                    ajouterFavori(event, id_us);
                     img.src = "img/icones/star_plein.png";
-                };
-                checkbox.addEventListener("click", (event) => {
-                    if (event.target.checked === true) {
-                        ajouterFavori(event, id_us);
-                        img.src = "img/icones/star_plein.png";
-                    } else {
-                        supprimerFavori(event, id_us);
-                        img.src = "img/icones/star_vide.png";
-                    }
-                });
-                document
-                    .querySelector(".produits")
-                    .querySelectorAll("produit-generique")
-                    .forEach((produit) => {
-                        const checkbox = produit.shadowRoot.querySelector(".checkbox");
-                        if (id_fav.includes(parseInt(checkbox.id))) checkbox.checked = true;
-                        checkbox.addEventListener("click", (event) => {
-                            if (cookieValue == null) window.location.href = "login.html";
-                            if (event.target.checked === true) {
-                                ajouterFavori(event, id_us);
-                            } else {
-                                supprimerFavori(event, id_us);
-                            }
-                        });
-                    });
+                } else {
+                    supprimerFavori(event, id_us);
+                    img.src = "img/icones/star_vide.png";
+                }
             });
+        });
     });
 }
-afficherTousLesProduits();
+
+// Fonction pour charger plus de produits
+function loadMoreProducts() {
+    afficherTousLesProduits(currentPage + 1);
+}
+
+// Initialisation au chargement de la page
+document.addEventListener('DOMContentLoaded', () => {
+    // Création du bouton "Afficher plus"
+    const loadMoreBtn = document.createElement('button');
+    loadMoreBtn.id = 'load-more';
+    loadMoreBtn.textContent = 'Afficher plus de produits';
+    loadMoreBtn.className = 'btn btn-primary mt-3 mx-auto d-block';
+    loadMoreBtn.style.display = 'none';
+    loadMoreBtn.addEventListener('click', loadMoreProducts);
+    
+    // Ajout du bouton à la page
+    const section = document.querySelector('section');
+    if (section) {
+        section.appendChild(loadMoreBtn);
+    }
+    
+    // Chargement initial des produits
+    afficherTousLesProduits(1);
+});
+
+// Gestion des changements d'URL (filtres, recherche)
+window.addEventListener('popstate', () => {
+    currentPage = 1;
+    afficherTousLesProduits(1);
+});
