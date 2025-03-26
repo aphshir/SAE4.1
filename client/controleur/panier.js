@@ -1,4 +1,5 @@
 import { cookieValue } from "./function.js";
+let prixTotal = 0
 
 if (cookieValue === undefined) {
     window.location.href = 'login.html'; //Si le cookie est vide, l'utilisateur n'est pas connecté donc on retourne à l'accueil.
@@ -251,13 +252,14 @@ async function appelPanier() {
                         }
                     });
                     document.getElementById("prixTotal").innerHTML = total;
+                    prixTotal = total
                 });
             });
         });
     });
 }
 
-document.getElementById("payer").addEventListener("click", async () => {
+/*document.getElementById("payer").addEventListener("click", async () => {
     const response = await fetch("../../serveur/api/payer.php", { method: "POST" })
         
     const data = await response.json();
@@ -281,7 +283,25 @@ document.getElementById("payer").addEventListener("click", async () => {
         console.info(data);
     }
 
+});*/
+
+document.getElementById("payer").addEventListener("click", async () => {
+    // Vérifiez si l'utilisateur est connecté
+    if (cookieValue === undefined) {
+        window.location.href = 'login.html'; // Si l'utilisateur n'est pas connecté, on le redirige vers la page de connexion
+        return;
+    }
+
+    // Récupérer la valeur du prix total affichée dans l'élément #prixTotal
+    const prixTotal = parseFloat(document.getElementById("prixTotal").innerHTML);
+
+    // Rediriger vers la page des informations personnelles avec le prix total dans l'URL
+    window.location.href = `../vue/informations-personnelles.html?prixTotal=${prixTotal.toFixed(2)}&id_us=${cookieValue}`;
 });
+
+
+
+
 
 const id_us = cookieValue; // A changer en cookieValue
 

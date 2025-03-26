@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Informations Personnelles - PM2</title>
+</head>
+<body>
+    <header id="printHeader"></header>
+
+    <div class="container">
+        <h1>Informations de livraison</h1>
+        <form id="form-infos">
+            <div class="mb-3">
+                <label for="nom" class="form-label">Nom</label>
+                <input type="text" class="form-control" id="nom" required>
+            </div>
+            <div class="mb-3">
+                <label for="prenom" class="form-label">Prénom</label>
+                <input type="text" class="form-control" id="prenom" required>
+            </div>
+            <div class="mb-3">
+                <label for="adresse" class="form-label">Adresse</label>
+                <input type="text" class="form-control" id="adresse" required>
+            </div>
+            <div class="mb-3">
+                <label for="ville" class="form-label">Ville</label>
+                <input type="text" class="form-control" id="ville" required>
+            </div>
+            <div class="mb-3">
+                <label for="codePostal" class="form-label">Code Postal</label>
+                <input type="text" class="form-control" id="codePostal" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirmer</button>
+        </form>
+    </div>
+
+    <footer id="printFooter"></footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" crossorigin="anonymous"></script>
+    <script type="module" src="../controleur/informations-personnelles.js"></script>
+</body>
+</html>
