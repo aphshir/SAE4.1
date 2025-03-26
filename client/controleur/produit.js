@@ -271,32 +271,59 @@ function boutonCommander(id_produit) {
             const tailleID = tailleSelect.options[tailleSelect.selectedIndex].value;
             const couleurID = couleurSelect.options[couleurSelect.selectedIndex].value;
 
-            fetch("../../serveur/api/newPanier.php", {
+            // Vérifier si le produit est déjà dans le panier
+            fetch("../../serveur/api/getPanier.php", {
                 method: "POST",
                 body: new URLSearchParams({
                     id_us: cookieValue,
-                    id_prod: id,
-                    id_tail: tailleID,
-                    id_col: couleurID,
-                    qte_pan: nbCommandee,
                 }),
             })
             .then((reponse) => reponse.json())
             .then((data) => {
-                if (data.status === "error") {
-                    console.info("Data de l'erreur tu as capté: ", data);
-                    alert("Vous avez déjà ce produit dans votre panier.");
-                } else if (data.status === "success") {
-                    window.location.href = "accueil.html";
+                // Vérifier si le produit avec la même taille et couleur est déjà dans le panier
+                const produitDejaDansPanier = data.data.some(item => 
+                    item.id_prod === id_produit && 
+                    item.id_tail === tailleID && 
+                    item.id_col === couleurID
+                );
+
+                if (produitDejaDansPanier) {
+                    alert("Ce produit est déjà dans votre panier. Vous pouvez modifier la quantité directement dans le panier.");
+                } else {
+                    // Ajouter le produit au panier si ce n'est pas déjà fait
+                    fetch("../../serveur/api/newPanier.php", {
+                        method: "POST",
+                        body: new URLSearchParams({
+                            id_us: cookieValue,
+                            id_prod: id_produit,
+                            id_tail: tailleID,
+                            id_col: couleurID,
+                            qte_pan: nbCommandee,
+                        }),
+                    })
+                    .then((reponse) => reponse.json())
+                    .then((data) => {
+                        if (data.status === "error") {
+                            console.info("Erreur lors de l'ajout : ", data);
+                            alert("Une erreur est survenue. Veuillez réessayer.");
+                        } else if (data.status === "success") {
+                            window.location.href = "accueil.html";  // Rediriger ou mettre à jour la page
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        alert("Une erreur est survenue. Veuillez réessayer.");
+                    });
                 }
             })
             .catch((error) => {
                 console.error(error);
-                alert("Une erreur est survenue. Veuillez réessayer.");
+                alert("Une erreur est survenue lors de la vérification du panier.");
             });
         }
     });
 }
+
 
 
 // function verifierPanierUtilisateur() {
