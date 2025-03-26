@@ -122,17 +122,27 @@ boutonRechercher.addEventListener("click", (e) => {
 });
 
 function rechercher() {
-    window.location.href =
-        window.location.href.split("?")[0] +
-        "?search=" +
-        traiterChaine(barreRecherche) +
-        "&idCategorie=" +
-        selectCategorie.value +
-        "&idCouleur=" +
-        selectCouleur.value +
-        "&idTaille=" +
-        selectTaille.value;
+    const searchQuery = traiterChaine(barreRecherche);
+    const idCategorie = selectCategorie.value ? selectCategorie.value : ""; // Si la catégorie est vide, on la met comme vide
+    const idCouleur = selectCouleur.value ? selectCouleur.value : ""; // Si la couleur est vide, on la met comme vide
+    const idTaille = selectTaille.value ? selectTaille.value : ""; // Si la taille est vide, on la met comme vide
+
+    let url = window.location.href.split("?")[0] + "?search=" + searchQuery;
+
+    if (idCategorie) {
+        url += "&idCategorie=" + idCategorie;
+    }
+    if (idCouleur) {
+        url += "&idCouleur=" + idCouleur;
+    }
+    if (idTaille) {
+        url += "&idTaille=" + idTaille;
+    }
+
+    window.location.href = url;
 }
+
+
 
 function fetchSpecification(select, url, default_name, searchParam) {
     return fetch(url)
@@ -180,23 +190,32 @@ selectCategorie.addEventListener("change", (e) => {
     fetch("../../serveur/api/getProduits.php")
         .then((reponse) => reponse.json().then((data) => {
             const prod_cat = data.data.filter((produit) => produit.id_cat == selectCategorie.value);
-            let couleur = []
-            let taille = []
+            let couleur = [];
+            let taille = [];
             prod_cat.forEach((produit) => {
-                couleur.push(produit.id_coul); 
+                couleur.push(produit.id_coul);
                 taille.push(produit.id_tail);
-            });            
+            });
             couleur = couleur.filter((v, i, a) => a.indexOf(v) === i);
             taille = taille.filter((v, i, a) => a.indexOf(v) === i);
             fetch("../../serveur/api/getCouleurs.php").then((reponse) => reponse.json().then((data) => {
-                const nom_couleur = data.data.filter((couleu) => couleur.includes(couleu.id_col));
+                const nom_couleur = data.data.filter((couleur) => couleur.id_col && couleur.id_col !== "");
                 selectCouleur.innerHTML = "";
                 ajouterOptions(selectCouleur, nom_couleur, "Couleur", "idCouleur");
-            }))
+
+                if (couleur.length > 0) {
+                    selectCouleur.value = couleur[0];
+                }
+            }));
             fetch("../../serveur/api/getTailles.php").then((reponse) => reponse.json().then((data) => {
-                const nom_tail = data.data.filter((taill) => taille.includes(taill.id_tail));
+                const nom_tail = data.data.filter((taille) => taille.id_tail && taille.id_tail !== "");
                 selectTaille.innerHTML = "";
                 ajouterOptions(selectTaille, nom_tail, "Taille", "idTaille");
-            }))
+
+                if (taille.length > 0) {
+                    selectTaille.value = taille[0]; 
+                }
+            }));
         }));
 });
+
