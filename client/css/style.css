@@ -15,13 +15,11 @@ input[type=number] {
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    color: #343a40;
+    background: whitesmoke;
+    font-family: Helvetica;
     margin: 0;
     padding: 0;
     width: 100%;
-    /* pour que le footer soit toujours en bas de la page */
     color: #232323;
     min-height: 100vh;
     display: flex;
@@ -53,13 +51,10 @@ article h1 {
 }
 
 footer {
-    background-color: #343a40;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
     width: 100%;
-    bottom: 0;
+    background-color: #ba0324;
+    color: #5f8755;
+    text-align: center;
     margin-top: auto;
 }
 
@@ -83,7 +78,6 @@ section {
     width: 100%;
     max-width: 500px;
     margin: 30px auto 0 auto;
-    /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24); */
     padding: 15px;
     box-sizing: border-box;
     border-radius: 5px;
@@ -94,15 +88,9 @@ form {
 }
 
 h1 {
+    margin: 0 auto;
+    padding-bottom: 10px;
     text-align: center;
-    margin: 20px 0;
-    font-size: 2.5rem;
-}
-
-h1 span {
-    display: block;
-    font-size: 1.2rem;
-    color: #6c757d;
 }
 
 header {
@@ -116,19 +104,6 @@ header {
     text-transform: uppercase;
 }
 
-header.sticky {
-    background-color: #343a40;
-    padding: 10px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-header.sticky img {
-    cursor: pointer;
-}
-
-/* Boutons de navigation dans le header */
 header nav {
     width: 30%;
     display: flex;
@@ -154,8 +129,6 @@ header nav a:hover {
     text-decoration: none;
 }
 
-header h1 {
-    display: none;
 
 header h1:hover {
     color: #2d8a5b; 
@@ -184,6 +157,20 @@ input,
     border-radius: 4px;
 }
 
+a.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a.login > img {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    margin-right: .2rem;
+}
+
 p {
     margin: 0;
     padding: 0;
@@ -194,8 +181,7 @@ select {
 }
 
 table {
-    background-color: #5f8755;
-    box-shadow: 5px 5px green;
+
     border-radius: 4px;
     padding: 30px;
 }
@@ -207,7 +193,7 @@ th {
 }
 
 .accueil>h1 {
-    background-color: #232323;
+    background-color: #5f8755;
     color: black;
     font-size: 30px;
     margin: 30px auto 5vh auto;
@@ -266,7 +252,7 @@ th {
 .accueil>p a:hover {
     text-decoration: underline;
 }
-  
+
 .btn_creation,
 .btn_retour {
     box-sizing: border-box;
@@ -367,7 +353,6 @@ th {
     color: #8c6e44;
     text-decoration: underline;
 }
-
 
 .logo,
 #btn_deroul_top,
@@ -540,7 +525,7 @@ form.search {
 #panier>.panierElement>#input_qte {
     text-align: center;
 }
-  
+
 @media screen and (min-width: 700px) {
     .accueil h1 {
         font-size: 50px;
@@ -607,11 +592,4 @@ form.search {
     .btn_retour {
         position: absolute;
     }
-}
-.produits {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
 }

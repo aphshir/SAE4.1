@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Paiement - PM2</title>
+
+    <!-- PayPal SDK - Utiliser le client ID sandbox -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AQe-r69d7AfQnoXJcvU7XqHe4pAAR3LJxTs0qY7_89gwoynPBcqD3yR2cCxjjk8fX3BLVB8bvB_EExs1&currency=EUR"></script>
+</head>
+
+<body>
+    <header id="printHeader"></header>
+
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Paiement</h1>
+        <div id="panierResume" class="card p-4 shadow">
+            <h3 class="text-center mb-3">Résumé de votre commande</h3>
+            <p><strong>Prix total des produits :</strong> <span id="prixTotalProduit">0€</span></p>
+            <p><strong>Frais de port :</strong> <span id="fraisPort">0€</span></p>
+            <p><strong>Total à payer :</strong> <span id="totalPayer">0€</span></p>
+        </div>
+
+        <!-- PayPal Button -->
+        <div id="paypal-button-container" class="d-flex justify-content-center mt-5"></div>
+    </div>
+
+    <footer id="printFooter"></footer>
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script type="module" src="../controleur/paiement.js"></script>
+
+</body>
+
+</html>

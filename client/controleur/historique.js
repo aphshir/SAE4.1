@@ -1,59 +1,43 @@
 import { cookieValue, isConnected } from "./function.js";
 
-if (cookieValue === undefined) {
-    window.location.href = 'accueil.html'; //Si le cookie est vide, l'utilisateur n'est pas connecté donc on retourne à l'accueil.
-}
-if (!isConnected()) {
-    window.location.href = "accueil.html";
+if (!cookieValue || !isConnected()) {
+    window.location.href = 'accueil.html';
 } else {
     affInfos();
 }
-async function affInfos() {     //requete API pour récupérer les infos de l'utilisateur
-    const reponse = await fetch(
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getCommandes.php", {
-            method: "POST",
-            body: new URLSearchParams({
-                id_us: cookieValue, //Remplacer par 3 pour tester
-            }),
+
+async function affInfos() {
+    try {
+        const reponse = await fetch("../../serveur/api/getCommandes.php", { method: "POST" });
+        const recupDonnees = await reponse.json();
+        const tableBody = document.querySelector('#commande tbody');
+        const messageContainer = document.getElementById("commandeVide");
+
+        if (recupDonnees.status !== "success" || !recupDonnees.data || recupDonnees.data.length === 0) {
+            messageContainer.innerText = "Vous n'avez pas encore passé de commande.";
+            return;
         }
-    );
 
-    const recupDonnees = await reponse.json();
-    //console.log("Message : ",recupDonnees.message);
-    //console.log(recupDonnees);
-    //console.log(cookieValue);
-    const table = document.getElementById('commande');
+        recupDonnees.data.forEach(commande => {
+            let ligne = tableBody.insertRow();
 
-    if (recupDonnees.status !== "success") {
-        console.log("Erreur, données non récupérées");
-        return;
-    }
-    if (recupDonnees.data[0] === null || recupDonnees.data[0] === undefined) {  //Si l'utilisateur n'a pas de commande, on affiche un message
-        //console.log("Aucune commande");
-        document.getElementById("commandeVide").innerHTML = "Vous n'avez pas encore passé de commande.";
-        table.style.display = "none";
-        return;
-    }
-    
+            let dateCommande = ligne.insertCell();
+            let prixCommande = ligne.insertCell();
+            let idCommande = ligne.insertCell();
 
-    //console.log(recupDonnees.data);
-    recupDonnees.data.forEach(commande => {
-        let ligne = table.insertRow();
+            dateCommande.textContent = commande.date_com;
+            prixCommande.textContent = `${commande.prix_total} €`;
 
-        let dateCommande = ligne.insertCell();
-        let prixCommande = ligne.insertCell();
-        let idCommande = ligne.insertCell();
+            let btn = document.createElement("button");
+            btn.textContent = "Détails";
+            btn.classList.add("btn-details");
+            btn.addEventListener("click", () => {
+                window.location.href = `historique_detail.html?id_com=${commande.id_com}`;
+            });
 
-        dateCommande.innerHTML = commande.date_com;
-        prixCommande.innerHTML = commande.prix_total + " €";
-
-        let btn = document.createElement("button");
-        btn.textContent = "Détails";
-        btn.classList.add("form_button");
-        btn.addEventListener("click", () => {
-            window.location.href = "historique_detail.html?id_com=" + commande.id_com; //window.location.href = "historique_detail.html?id_com=" + commande.id_com;
+            idCommande.appendChild(btn);
         });
-
-        idCommande.appendChild(btn);
-    });
+    } catch (error) {
+        console.error("Erreur lors de la récupération des commandes :", error);
+    }
 }

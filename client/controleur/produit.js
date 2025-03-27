@@ -84,6 +84,7 @@ class ProduitDetail extends HTMLElement {
     </style>
     <div class="produitDetail">
         <center><h1>${this.getAttribute("name")}</h1></center>
+        <span class="sku">Référence : ${this.getAttribute("sku")}</span>
         <span class="main_info_prod">
             <center><img class="img_prod" alt="../img/Placeholder.png" src="${this.getAttribute("path_img")}"></center>
             <center><p class="desc_prod">${this.getAttribute("description")}</p></center>
@@ -91,6 +92,7 @@ class ProduitDetail extends HTMLElement {
         <br>
         <div class="sub_info_prod">
             <div style="margin-bottom: 15px;">
+                <button id="fav">${this.getAttribute("favori")}</button>
                 <p>prix : <span id="prix">${this.getAttribute("prix")}</span> €</p>
                 <div id="taille">Taille : </div>
                 <div id="couleur">Couleur : </div>
@@ -107,6 +109,30 @@ class ProduitDetail extends HTMLElement {
         document.title = this.getAttribute("name") + " - PM2";
 
         const nbrCommande = this.shadowRoot.getElementById("nbrCommande");
+        const favorit = this.shadowRoot.getElementById("fav");
+
+        favorit.addEventListener("click", async (event) => {
+
+            const file = this.getAttribute("favori") == "true" ? "delFavori.php" : "newFavori.php";
+
+            const response = await fetch(
+                `../../serveur/api/${file}`, {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        id_prod: id,
+                    }),
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.status === "success") {
+                favorit.innerHTML = favorit.innerHTML == "true" ? "false" : "true";
+            } else if (data.status === "error") {
+                alert("Erreur lors de l'ajout aux favoris.");
+            }
+
+        });
 
         nbrCommande.addEventListener("input", (event) => {
             const prix = this.shadowRoot.getElementById("prix").innerHTML;
@@ -127,7 +153,7 @@ class ProduitDetail extends HTMLElement {
 customElements.define("produit-detail", ProduitDetail);
 async function AfficherProd() {
     return fetch(
-            "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getProduit.php", {
+            "../../serveur/api/getProduit.php", {
                 method: "POST",
 
                 body: new URLSearchParams({
@@ -137,7 +163,7 @@ async function AfficherProd() {
         )
         .then((reponse) => reponse.json())
         .then((data) => {
-
+            console.info("DATA PRODUIT: ", data);
             imprimerProduit(data.data.filter((produit) => produit.id_col == id_col)[0]);
             imprimerSelectionCouleur(data.data);
             imprimerSelectionTaille(data.data);
@@ -176,7 +202,7 @@ function imprimerSelectionCouleur(produits) {
             return produit.id_col == id;
         });
         let path = produit.path_img ?
-            "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/img/articles/" + produit.path_img :
+            "../../serveur/img/articles/" + produit.path_img :
             "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
         root.querySelector("img").setAttribute("src", path);
         //root.setAttribute("prix", produit.prix_unit);
@@ -212,18 +238,20 @@ function imprimerSelectionTaille(produits) {
 }
 
 function imprimerProduit(produit) {
-
     let path = produit.path_img ?
-        "https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/img/articles/" + produit.path_img :
+        "../../serveur/img/articles/" + produit.path_img :
         "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
-    //console.log(path)
+    
     const prod_affiche = document.createElement("produit-detail");
     prod_affiche.setAttribute("name", produit.nom_prod);
     prod_affiche.setAttribute("description", produit.description);
     prod_affiche.setAttribute("prix", produit.prix_unit);
     prod_affiche.setAttribute("couleur", produit.nom_col);
     prod_affiche.setAttribute("taille", produit.nom_tail);
+    prod_affiche.setAttribute("favori", !!produit.est_favori);
+    prod_affiche.setAttribute("id", produit.id_prod);
     prod_affiche.setAttribute("path_img", path);
+    prod_affiche.setAttribute("sku", produit.SKU || "N/A");
     prod_affiche.setAttribute("id", "produit");
     document.querySelector("#detail").appendChild(prod_affiche);
 }
@@ -244,31 +272,59 @@ function boutonCommander(id_produit) {
             const tailleID = tailleSelect.options[tailleSelect.selectedIndex].value;
             const couleurID = couleurSelect.options[couleurSelect.selectedIndex].value;
 
-            fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/newPanier.php", {
+            // Vérifier si le produit est déjà dans le panier
+            fetch("../../serveur/api/getPanier.php", {
                 method: "POST",
                 body: new URLSearchParams({
                     id_us: cookieValue,
-                    id_prod: id,
-                    id_tail: tailleID,
-                    id_col: couleurID,
-                    qte_pan: nbCommandee,
                 }),
             })
             .then((reponse) => reponse.json())
             .then((data) => {
-                if (data.status === "error") {
-                    alert("Vous avez déjà ce produit dans votre panier.");
-                } else if (data.status === "success") {
-                    window.location.href = "accueil.html";
+                // Vérifier si le produit avec la même taille et couleur est déjà dans le panier
+                const produitDejaDansPanier = data.data.some(item => 
+                    item.id_prod === id_produit && 
+                    item.id_tail === tailleID && 
+                    item.id_col === couleurID
+                );
+
+                if (produitDejaDansPanier) {
+                    alert("Ce produit est déjà dans votre panier. Vous pouvez modifier la quantité directement dans le panier.");
+                } else {
+                    // Ajouter le produit au panier si ce n'est pas déjà fait
+                    fetch("../../serveur/api/newPanier.php", {
+                        method: "POST",
+                        body: new URLSearchParams({
+                            id_us: cookieValue,
+                            id_prod: id_produit,
+                            id_tail: tailleID,
+                            id_col: couleurID,
+                            qte_pan: nbCommandee,
+                        }),
+                    })
+                    .then((reponse) => reponse.json())
+                    .then((data) => {
+                        if (data.status === "error") {
+                            console.info("Erreur lors de l'ajout : ", data);
+                            alert("Une erreur est survenue. Veuillez réessayer.");
+                        } else if (data.status === "success") {
+                            window.location.href = "accueil.html";  // Rediriger ou mettre à jour la page
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        alert("Une erreur est survenue. Veuillez réessayer.");
+                    });
                 }
             })
             .catch((error) => {
                 console.error(error);
-                alert("Une erreur est survenue. Veuillez réessayer.");
+                alert("Une erreur est survenue lors de la vérification du panier.");
             });
         }
     });
 }
+
 
 
 // function verifierPanierUtilisateur() {

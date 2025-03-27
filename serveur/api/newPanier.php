@@ -1,7 +1,10 @@
 <?php declare(strict_types=1);
 
+require_once "./verifier_cookie.php";
 require_once "../bdd/connexion.php";
 require_once 'header.php';
+
+$user = verifier_utilsateur();
 
 $json = [];
 
@@ -13,7 +16,7 @@ VALUES
 
 $res = $db->prepare($query);
 
-$res->bindParam(':id_us', $_POST['id_us']);
+$res->bindParam(':id_us', $user['id_us']);
 $res->bindParam(':id_prod', $_POST['id_prod']);
 $res->bindParam(':qte_pan', $_POST['qte_pan']);
 $res->bindParam(':id_col', $_POST['id_col']);

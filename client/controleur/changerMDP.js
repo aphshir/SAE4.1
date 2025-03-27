@@ -5,6 +5,7 @@ if (cookieValue === undefined) {
 }
 let mdpOK = false;
 const mdpErreurs = document.querySelectorAll('span[id^="mdpErreur"]');
+
 mdpErreurs.forEach((mdpErreur) => {
   mdpErreur.style.display = "none";
 });
@@ -55,28 +56,30 @@ document.getElementById("nouveauMdp").addEventListener("input", (e) => {
   }
 });
 
-function ConfirmerMDP(mdpOK) {
+async function ConfirmerMDP(mdpOK) {
   const motDePasse = document.getElementById("nouveauMdp");
   const confimation = document.getElementById("confirmation");
 
   if (motDePasse.value === confimation.value && mdpOK) {
-    fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/changerMDP.php", {
+
+    const response = await fetch("../../serveur/api/changerMDP.php", {
       method: "POST",
       body: new URLSearchParams({
-        "id_us": cookieValue,
-        "mdp": motDePasse.value,
+        "password": motDePasse.value,
       }),
-    }).then((response) => {
-      response.json().then((data) => {
-        console.log(data);
-        if (data["status"] === "success") {
-          alert("Votre mot de passe a bien été changé");
-          window.location.href = "accueil.html";
-        } else {
-          alert("Erreur lors du changement de mot de passe");
-        }
-      });
     });
+
+    const data = await response.json()
+
+    console.log(data);
+
+    if (data["status"] === "success") {
+      alert("Votre mot de passe a bien été changé");
+      window.location.href = "accueil.html";
+    } else {
+      alert("Erreur lors du changement de mot de passe");
+    }
+
   } else {
     alert("Les mots de passe ne correspondent pas");
   }

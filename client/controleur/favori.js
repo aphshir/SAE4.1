@@ -8,20 +8,19 @@ import { imprimerUnProduit } from "./accueil.js"
 
 const id_us = cookieValue; // A changer en cookieValue
 
-async function getFavori(id_us) {
-    return await fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/getFavori.php", {
-            method: "POST",
-            body: new URLSearchParams({
-                id_us: id_us,
-            }),
-        }).then((response) => response.json().then(json => afficherFavoris(json.data)))
+async function getFavori() {
+    return fetch("../../serveur/api/getFavori.php", { method: "POST" })
+        .then((response) => response.json().then(json => afficherFavoris(json.data)))
         .catch((error) => console.log(error));
 }
 
 function afficherFavoris(produits) {
-    //console.log(produits);
     const listeFav = document.querySelector(".listeFav");
-    // console.log(produits);
+
+    if (produits.length === 0) {
+        listeFav.innerHTML = "<p>Aucun favori trouvé</p>";
+        return;
+    }
 
     produits.forEach((produit) => {
 
@@ -41,10 +40,9 @@ function btn() {
 
             //console.log("ptdr mais c'est quoi ce truc");
             // console.log(event.target.id);
-            fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/delFavori.php", {
+            fetch("../../serveur/api/delFavori.php", {
                 method: "POST",
                 body: new URLSearchParams({
-                    id_us: id_us,
                     id_prod: event.target.id.substring(2),
                 })
             }).then(() => {
@@ -58,18 +56,14 @@ function btn() {
     });
 };
 
-getFavori(id_us).then(() => {
-    //console.log("ok");
-    btn();
-});
+getFavori(id_us)
+    .then(() => {
+        btn();
+    });
 
 document.getElementById("clear").addEventListener("click", () => {
-    fetch("https://devweb.iutmetz.univ-lorraine.fr/~laroche5/SAE_401/serveur/api/clearFavori.php", {
-        method: "POST",
-        body: new URLSearchParams({
-            id_us: id_us,
+    fetch("../../serveur/api/clearFavori.php", { method: "POST" })
+        .then(() => {
+            document.querySelector(".listeFav").innerHTML = "<p>Aucun favori</p>";
         })
-    }).then(() => {
-        document.querySelector(".listeFav").innerHTML = "<p>Aucun favori</p>";
-    })
 });

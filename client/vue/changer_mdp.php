@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 
+<?php
+    require_once '../../serveur/api/verifier_cookie.php';
+
+    $user = verifier_utilsateur();
+
+    if (!$user) {
+        header('Location: connexion.php');
+        exit();
+    }
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,6 +44,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 <script type="module" src="../controleur/changerMDP.js"></script>
-<script type="module" src="../controleur/function.js"></script>
+<!-- <script type="module" src="../controleur/function.js"></script> -->
 
 </html>
